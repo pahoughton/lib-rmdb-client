@@ -1,0 +1,560 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DA34FAA114DE83350027B628 /* SMKDBConnMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FA9F14DE83350027B628 /* SMKDBConnMgr.h */; };
+		DA34FAA214DE83350027B628 /* SMKDBConnMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34FAA014DE83350027B628 /* SMKDBConnMgr.m */; };
+		DA34FAA614DE83800027B628 /* SMKDBConn_postgres.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FAA414DE83800027B628 /* SMKDBConn_postgres.h */; };
+		DA34FAA714DE83800027B628 /* SMKDBConn_postgres.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34FAA514DE83800027B628 /* SMKDBConn_postgres.m */; };
+		DA34FAAA14DE83970027B628 /* SMKDBConn_mysql.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FAA814DE83970027B628 /* SMKDBConn_mysql.h */; };
+		DA34FAAB14DE83970027B628 /* SMKDBConn_mysql.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34FAA914DE83970027B628 /* SMKDBConn_mysql.m */; };
+		DA34FAAE14DE84530027B628 /* SMKDBResults_mysql.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FAAC14DE84530027B628 /* SMKDBResults_mysql.h */; };
+		DA34FAAF14DE84530027B628 /* SMKDBResults_mysql.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34FAAD14DE84530027B628 /* SMKDBResults_mysql.m */; };
+		DA34FAB214DE84660027B628 /* SMKDBResults_postgres.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FAB014DE84660027B628 /* SMKDBResults_postgres.h */; };
+		DA34FAB314DE84660027B628 /* SMKDBResults_postgres.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34FAB114DE84660027B628 /* SMKDBResults_postgres.m */; };
+		DA34FAC614DE8D2A0027B628 /* SMKDBGatherer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FAC514DE8D2A0027B628 /* SMKDBGatherer.h */; };
+		DA34FAC814DE8DEF0027B628 /* SMKDBRecProc.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FAC714DE8DEF0027B628 /* SMKDBRecProc.h */; };
+		DA34FACB14DE99D20027B628 /* SMKDBException.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FAC914DE99D20027B628 /* SMKDBException.h */; };
+		DA34FACC14DE99D20027B628 /* SMKDBException.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34FACA14DE99D20027B628 /* SMKDBException.m */; };
+		DA34FACE14DEA45F0027B628 /* SMKDBConnInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FACD14DEA45F0027B628 /* SMKDBConnInfo.h */; };
+		DA4784C514DFBCA900893259 /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA4784C414DFBCA900893259 /* libpq.a */; };
+		DA4784C714DFBF4200893259 /* TestDBInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4784C014DFBB9800893259 /* TestDBInfo.m */; };
+		DA59972914DC04C800BAEECE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59972814DC04C800BAEECE /* Cocoa.framework */; };
+		DA59973B14DC04C900BAEECE /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59973A14DC04C900BAEECE /* SenTestingKit.framework */; };
+		DA59973C14DC04C900BAEECE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59972814DC04C800BAEECE /* Cocoa.framework */; };
+		DA59973F14DC04C900BAEECE /* libSMKDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59972514DC04C800BAEECE /* libSMKDB.a */; };
+		DA59974514DC04C900BAEECE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA59974314DC04C900BAEECE /* InfoPlist.strings */; };
+		DA59974814DC04C900BAEECE /* SMKDBTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59974714DC04C900BAEECE /* SMKDBTests.m */; };
+		DA59975914DC054100BAEECE /* SMKDB_priv.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975114DC054100BAEECE /* SMKDB_priv.h */; };
+		DA59975A14DC054100BAEECE /* SMKDB.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975214DC054100BAEECE /* SMKDB.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA59975B14DC054100BAEECE /* SMKDBConn.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975314DC054100BAEECE /* SMKDBConn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA59975D14DC054100BAEECE /* SMKDBPrepStmt.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975514DC054100BAEECE /* SMKDBPrepStmt.h */; };
+		DA59975E14DC054100BAEECE /* SMKDBPrepStmt.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59975614DC054100BAEECE /* SMKDBPrepStmt.m */; };
+		DA59975F14DC054100BAEECE /* SMKDBResults.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975714DC054100BAEECE /* SMKDBResults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA59976014DC054100BAEECE /* SMKDBResults.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59975814DC054100BAEECE /* SMKDBResults.m */; };
+		DA59976214DC083800BAEECE /* libmysqlclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59976114DC083800BAEECE /* libmysqlclient.a */; };
+		DAB0108614DED8E600C225F4 /* SMKDBRecProcMtObj.h in Headers */ = {isa = PBXBuildFile; fileRef = DAB0108414DED8E600C225F4 /* SMKDBRecProcMtObj.h */; };
+		DAB0108714DED8E600C225F4 /* SMKDBRecProcMtObj.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB0108514DED8E600C225F4 /* SMKDBRecProcMtObj.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DA59973D14DC04C900BAEECE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA59971C14DC04C800BAEECE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA59972414DC04C800BAEECE;
+			remoteInfo = SMKDB;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DA34FA9F14DE83350027B628 /* SMKDBConnMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBConnMgr.h; sourceTree = "<group>"; };
+		DA34FAA014DE83350027B628 /* SMKDBConnMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBConnMgr.m; sourceTree = "<group>"; };
+		DA34FAA414DE83800027B628 /* SMKDBConn_postgres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMKDBConn_postgres.h; path = SMKDB/SMKDBConn_postgres.h; sourceTree = "<group>"; };
+		DA34FAA514DE83800027B628 /* SMKDBConn_postgres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMKDBConn_postgres.m; path = SMKDB/SMKDBConn_postgres.m; sourceTree = "<group>"; };
+		DA34FAA814DE83970027B628 /* SMKDBConn_mysql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBConn_mysql.h; sourceTree = "<group>"; };
+		DA34FAA914DE83970027B628 /* SMKDBConn_mysql.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBConn_mysql.m; sourceTree = "<group>"; };
+		DA34FAAC14DE84530027B628 /* SMKDBResults_mysql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBResults_mysql.h; sourceTree = "<group>"; };
+		DA34FAAD14DE84530027B628 /* SMKDBResults_mysql.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBResults_mysql.m; sourceTree = "<group>"; };
+		DA34FAB014DE84660027B628 /* SMKDBResults_postgres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMKDBResults_postgres.h; path = SMKDB/SMKDBResults_postgres.h; sourceTree = "<group>"; };
+		DA34FAB114DE84660027B628 /* SMKDBResults_postgres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMKDBResults_postgres.m; path = SMKDB/SMKDBResults_postgres.m; sourceTree = "<group>"; };
+		DA34FAC514DE8D2A0027B628 /* SMKDBGatherer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBGatherer.h; sourceTree = "<group>"; };
+		DA34FAC714DE8DEF0027B628 /* SMKDBRecProc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBRecProc.h; sourceTree = "<group>"; };
+		DA34FAC914DE99D20027B628 /* SMKDBException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBException.h; sourceTree = "<group>"; };
+		DA34FACA14DE99D20027B628 /* SMKDBException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBException.m; sourceTree = "<group>"; };
+		DA34FACD14DEA45F0027B628 /* SMKDBConnInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBConnInfo.h; sourceTree = "<group>"; };
+		DA4784BF14DFBB9800893259 /* TestDBInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDBInfo.h; sourceTree = "<group>"; };
+		DA4784C014DFBB9800893259 /* TestDBInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDBInfo.m; sourceTree = "<group>"; };
+		DA4784C414DFBCA900893259 /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = /usr/lib/libpq.a; sourceTree = "<absolute>"; };
+		DA4784C814DFC2C300893259 /* TestTableDDL.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestTableDDL.sql; sourceTree = "<group>"; };
+		DA4784C914DFC34F00893259 /* AddTestRecs.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = AddTestRecs.pl; sourceTree = "<group>"; };
+		DA59972514DC04C800BAEECE /* libSMKDB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSMKDB.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA59972814DC04C800BAEECE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DA59972B14DC04C800BAEECE /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		DA59972C14DC04C800BAEECE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DA59972D14DC04C800BAEECE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DA59973014DC04C900BAEECE /* SMKDB-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SMKDB-Prefix.pch"; sourceTree = "<group>"; };
+		DA59973914DC04C900BAEECE /* SMKDBTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SMKDBTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA59973A14DC04C900BAEECE /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		DA59974214DC04C900BAEECE /* SMKDBTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SMKDBTests-Info.plist"; sourceTree = "<group>"; };
+		DA59974414DC04C900BAEECE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA59974614DC04C900BAEECE /* SMKDBTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMKDBTests.h; sourceTree = "<group>"; };
+		DA59974714DC04C900BAEECE /* SMKDBTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMKDBTests.m; sourceTree = "<group>"; };
+		DA59975114DC054100BAEECE /* SMKDB_priv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDB_priv.h; sourceTree = "<group>"; };
+		DA59975214DC054100BAEECE /* SMKDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDB.h; sourceTree = "<group>"; };
+		DA59975314DC054100BAEECE /* SMKDBConn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBConn.h; sourceTree = "<group>"; };
+		DA59975514DC054100BAEECE /* SMKDBPrepStmt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBPrepStmt.h; sourceTree = "<group>"; };
+		DA59975614DC054100BAEECE /* SMKDBPrepStmt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBPrepStmt.m; sourceTree = "<group>"; };
+		DA59975714DC054100BAEECE /* SMKDBResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBResults.h; sourceTree = "<group>"; };
+		DA59975814DC054100BAEECE /* SMKDBResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBResults.m; sourceTree = "<group>"; };
+		DA59976114DC083800BAEECE /* libmysqlclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmysqlclient.a; path = "../../../../../../usr/local/mysql-5.5.19-osx10.6-x86_64/lib/libmysqlclient.a"; sourceTree = "<group>"; };
+		DAB0108414DED8E600C225F4 /* SMKDBRecProcMtObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBRecProcMtObj.h; sourceTree = "<group>"; };
+		DAB0108514DED8E600C225F4 /* SMKDBRecProcMtObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBRecProcMtObj.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DA59972214DC04C800BAEECE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA59972914DC04C800BAEECE /* Cocoa.framework in Frameworks */,
+				DA59976214DC083800BAEECE /* libmysqlclient.a in Frameworks */,
+				DA4784C514DFBCA900893259 /* libpq.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA59973514DC04C900BAEECE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA59973B14DC04C900BAEECE /* SenTestingKit.framework in Frameworks */,
+				DA59973C14DC04C900BAEECE /* Cocoa.framework in Frameworks */,
+				DA59973F14DC04C900BAEECE /* libSMKDB.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DA34FAB414DE84780027B628 /* MySql */ = {
+			isa = PBXGroup;
+			children = (
+				DA34FAA814DE83970027B628 /* SMKDBConn_mysql.h */,
+				DA34FAA914DE83970027B628 /* SMKDBConn_mysql.m */,
+				DA34FAAC14DE84530027B628 /* SMKDBResults_mysql.h */,
+				DA34FAAD14DE84530027B628 /* SMKDBResults_mysql.m */,
+			);
+			name = MySql;
+			sourceTree = "<group>";
+		};
+		DA34FAB514DE84A90027B628 /* Posgress */ = {
+			isa = PBXGroup;
+			children = (
+				DA34FAA414DE83800027B628 /* SMKDBConn_postgres.h */,
+				DA34FAA514DE83800027B628 /* SMKDBConn_postgres.m */,
+				DA34FAB014DE84660027B628 /* SMKDBResults_postgres.h */,
+				DA34FAB114DE84660027B628 /* SMKDBResults_postgres.m */,
+			);
+			name = Posgress;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		DA34FABC14DE870C0027B628 /* SqlLite */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SqlLite;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		DA59971A14DC04C800BAEECE = {
+			isa = PBXGroup;
+			children = (
+				DA59972E14DC04C900BAEECE /* SMKDB */,
+				DA59974014DC04C900BAEECE /* SMKDBTests */,
+				DA59972714DC04C800BAEECE /* Frameworks */,
+				DA59972614DC04C800BAEECE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DA59972614DC04C800BAEECE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA59972514DC04C800BAEECE /* libSMKDB.a */,
+				DA59973914DC04C900BAEECE /* SMKDBTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA59972714DC04C800BAEECE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA4784C414DFBCA900893259 /* libpq.a */,
+				DA59976114DC083800BAEECE /* libmysqlclient.a */,
+				DA59972814DC04C800BAEECE /* Cocoa.framework */,
+				DA59973A14DC04C900BAEECE /* SenTestingKit.framework */,
+				DA59972A14DC04C800BAEECE /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA59972A14DC04C800BAEECE /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA59972B14DC04C800BAEECE /* AppKit.framework */,
+				DA59972C14DC04C800BAEECE /* CoreData.framework */,
+				DA59972D14DC04C800BAEECE /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		DA59972E14DC04C900BAEECE /* SMKDB */ = {
+			isa = PBXGroup;
+			children = (
+				DA59976314DC08F100BAEECE /* Public Headers */,
+				DA34FAA014DE83350027B628 /* SMKDBConnMgr.m */,
+				DA34FACA14DE99D20027B628 /* SMKDBException.m */,
+				DA34FABC14DE870C0027B628 /* SqlLite */,
+				DA34FAB514DE84A90027B628 /* Posgress */,
+				DA34FAB414DE84780027B628 /* MySql */,
+				DA59975114DC054100BAEECE /* SMKDB_priv.h */,
+				DA59975514DC054100BAEECE /* SMKDBPrepStmt.h */,
+				DA59975614DC054100BAEECE /* SMKDBPrepStmt.m */,
+				DA59975814DC054100BAEECE /* SMKDBResults.m */,
+				DA59972F14DC04C900BAEECE /* Supporting Files */,
+				DAB0108414DED8E600C225F4 /* SMKDBRecProcMtObj.h */,
+				DAB0108514DED8E600C225F4 /* SMKDBRecProcMtObj.m */,
+			);
+			path = SMKDB;
+			sourceTree = "<group>";
+		};
+		DA59972F14DC04C900BAEECE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA59973014DC04C900BAEECE /* SMKDB-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DA59974014DC04C900BAEECE /* SMKDBTests */ = {
+			isa = PBXGroup;
+			children = (
+				DA59974614DC04C900BAEECE /* SMKDBTests.h */,
+				DA59974714DC04C900BAEECE /* SMKDBTests.m */,
+				DA4784BF14DFBB9800893259 /* TestDBInfo.h */,
+				DA4784C014DFBB9800893259 /* TestDBInfo.m */,
+				DA59974114DC04C900BAEECE /* Supporting Files */,
+			);
+			path = SMKDBTests;
+			sourceTree = "<group>";
+		};
+		DA59974114DC04C900BAEECE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA4784C914DFC34F00893259 /* AddTestRecs.pl */,
+				DA59974214DC04C900BAEECE /* SMKDBTests-Info.plist */,
+				DA59974314DC04C900BAEECE /* InfoPlist.strings */,
+				DA4784C814DFC2C300893259 /* TestTableDDL.sql */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DA59976314DC08F100BAEECE /* Public Headers */ = {
+			isa = PBXGroup;
+			children = (
+				DA59975214DC054100BAEECE /* SMKDB.h */,
+				DA34FA9F14DE83350027B628 /* SMKDBConnMgr.h */,
+				DA34FACD14DEA45F0027B628 /* SMKDBConnInfo.h */,
+				DA59975314DC054100BAEECE /* SMKDBConn.h */,
+				DA59975714DC054100BAEECE /* SMKDBResults.h */,
+				DA34FAC514DE8D2A0027B628 /* SMKDBGatherer.h */,
+				DA34FAC714DE8DEF0027B628 /* SMKDBRecProc.h */,
+				DA34FAC914DE99D20027B628 /* SMKDBException.h */,
+			);
+			name = "Public Headers";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		DA59972314DC04C800BAEECE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA59975914DC054100BAEECE /* SMKDB_priv.h in Headers */,
+				DA59975A14DC054100BAEECE /* SMKDB.h in Headers */,
+				DA59975B14DC054100BAEECE /* SMKDBConn.h in Headers */,
+				DA59975D14DC054100BAEECE /* SMKDBPrepStmt.h in Headers */,
+				DA59975F14DC054100BAEECE /* SMKDBResults.h in Headers */,
+				DA34FAA114DE83350027B628 /* SMKDBConnMgr.h in Headers */,
+				DA34FAA614DE83800027B628 /* SMKDBConn_postgres.h in Headers */,
+				DA34FAAA14DE83970027B628 /* SMKDBConn_mysql.h in Headers */,
+				DA34FAAE14DE84530027B628 /* SMKDBResults_mysql.h in Headers */,
+				DA34FAB214DE84660027B628 /* SMKDBResults_postgres.h in Headers */,
+				DA34FAC614DE8D2A0027B628 /* SMKDBGatherer.h in Headers */,
+				DA34FAC814DE8DEF0027B628 /* SMKDBRecProc.h in Headers */,
+				DA34FACB14DE99D20027B628 /* SMKDBException.h in Headers */,
+				DA34FACE14DEA45F0027B628 /* SMKDBConnInfo.h in Headers */,
+				DAB0108614DED8E600C225F4 /* SMKDBRecProcMtObj.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		DA59972414DC04C800BAEECE /* SMKDB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA59974B14DC04C900BAEECE /* Build configuration list for PBXNativeTarget "SMKDB" */;
+			buildPhases = (
+				DA59972114DC04C800BAEECE /* Sources */,
+				DA59972214DC04C800BAEECE /* Frameworks */,
+				DA59972314DC04C800BAEECE /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SMKDB;
+			productName = SMKDB;
+			productReference = DA59972514DC04C800BAEECE /* libSMKDB.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		DA59973814DC04C900BAEECE /* SMKDBTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA59974E14DC04C900BAEECE /* Build configuration list for PBXNativeTarget "SMKDBTests" */;
+			buildPhases = (
+				DA59973414DC04C900BAEECE /* Sources */,
+				DA59973514DC04C900BAEECE /* Frameworks */,
+				DA59973614DC04C900BAEECE /* Resources */,
+				DA59973714DC04C900BAEECE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA59973E14DC04C900BAEECE /* PBXTargetDependency */,
+			);
+			name = SMKDBTests;
+			productName = SMKDBTests;
+			productReference = DA59973914DC04C900BAEECE /* SMKDBTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DA59971C14DC04C800BAEECE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Secure Media Keepers";
+			};
+			buildConfigurationList = DA59971F14DC04C800BAEECE /* Build configuration list for PBXProject "SMKDB" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DA59971A14DC04C800BAEECE;
+			productRefGroup = DA59972614DC04C800BAEECE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DA59972414DC04C800BAEECE /* SMKDB */,
+				DA59973814DC04C900BAEECE /* SMKDBTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DA59973614DC04C900BAEECE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA59974514DC04C900BAEECE /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DA59973714DC04C900BAEECE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DA59972114DC04C800BAEECE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA59975E14DC054100BAEECE /* SMKDBPrepStmt.m in Sources */,
+				DA59976014DC054100BAEECE /* SMKDBResults.m in Sources */,
+				DA34FAA214DE83350027B628 /* SMKDBConnMgr.m in Sources */,
+				DA34FAA714DE83800027B628 /* SMKDBConn_postgres.m in Sources */,
+				DA34FAAB14DE83970027B628 /* SMKDBConn_mysql.m in Sources */,
+				DA34FAAF14DE84530027B628 /* SMKDBResults_mysql.m in Sources */,
+				DA34FAB314DE84660027B628 /* SMKDBResults_postgres.m in Sources */,
+				DA34FACC14DE99D20027B628 /* SMKDBException.m in Sources */,
+				DAB0108714DED8E600C225F4 /* SMKDBRecProcMtObj.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA59973414DC04C900BAEECE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA59974814DC04C900BAEECE /* SMKDBTests.m in Sources */,
+				DA4784C714DFBF4200893259 /* TestDBInfo.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DA59973E14DC04C900BAEECE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA59972414DC04C800BAEECE /* SMKDB */;
+			targetProxy = DA59973D14DC04C900BAEECE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DA59974314DC04C900BAEECE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA59974414DC04C900BAEECE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DA59974914DC04C900BAEECE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DA59974A14DC04C900BAEECE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DA59974C14DC04C900BAEECE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SMKDB/SMKDB-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/local/mysql/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/usr/local/mysql-5.5.19-osx10.6-x86_64/lib\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DA59974D14DC04C900BAEECE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SMKDB/SMKDB-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/local/mysql/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/usr/local/mysql-5.5.19-osx10.6-x86_64/lib\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		DA59974F14DC04C900BAEECE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SMKDB/SMKDB-Prefix.pch";
+				INFOPLIST_FILE = "SMKDBTests/SMKDBTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		DA59975014DC04C900BAEECE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SMKDB/SMKDB-Prefix.pch";
+				INFOPLIST_FILE = "SMKDBTests/SMKDBTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA59971F14DC04C800BAEECE /* Build configuration list for PBXProject "SMKDB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA59974914DC04C900BAEECE /* Debug */,
+				DA59974A14DC04C900BAEECE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA59974B14DC04C900BAEECE /* Build configuration list for PBXNativeTarget "SMKDB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA59974C14DC04C900BAEECE /* Debug */,
+				DA59974D14DC04C900BAEECE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA59974E14DC04C900BAEECE /* Build configuration list for PBXNativeTarget "SMKDBTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA59974F14DC04C900BAEECE /* Debug */,
+				DA59975014DC04C900BAEECE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DA59971C14DC04C800BAEECE /* Project object */;
+}
