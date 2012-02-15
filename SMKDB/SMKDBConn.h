@@ -1,11 +1,27 @@
 /**
-  SMKDBConn.h
-  SMKDB
-
-  Created by Paul Houghton on 2/2/12.
-  Copyright (c) 2012 Secure Media Keepers. All rights reserved.
+ File:		SMKDBConn.h
+ Project:	SMKDB 
+ Desc:
+ 
+ Notes:
+ 
+ Author(s):   Paul Houghton <Paul.Houghton@SecureMediaKeepers.com>
+ Created:     02/05/2012 04:36
+ Copyright:   Copyright (c) 2012 Secure Media Keepers
+              www.SecureMediaKeepers.com
+              All rights reserved.
+ 
+ Revision History: (See ChangeLog for details)
+ 
+   $Author$
+   $Date$
+   $Revision$
+   $Name$
+   $State$
+ 
+ $Id$
+ 
 **/
-
 #import <Foundation/Foundation.h>
 
 @protocol SMKDBResults;
@@ -14,6 +30,8 @@
 
 // noted the default init will throw Exceptions
 -(id)initWithDoExceptions:(BOOL)throwExceptions;
+
+-(void) setBinResults:(BOOL)tf;
 
 -(BOOL)connect:(const char *)cHost 
           port:(unsigned int)port 
@@ -31,14 +49,15 @@
 
 -(NSString *)errorMessage;
 
--(NSString *)quote:(NSString *)strVal;
--(NSString *)quoteNum:(NSNumber *)numVal;
+// q is short name quote
+-(NSString *)q:(NSObject *) val;
+-(NSString *)quote:(NSObject *) val;
 
 -(id <SMKDBResults>)query:(NSString *)sql;
 // i.e. @"select %s,%d,%@",cstr,int,obj
 -(id <SMKDBResults>)queryFormat:(NSString *)sql
                       arguments:(va_list)args;
--(id <SMKDBResults>)queryFormat:(NSString *)sql,...;
+-(id <SMKDBResults>)queryFormat:(NSString *)sql,... NS_FORMAT_FUNCTION(1,2);
 // i.e. @"select a where b = $1";
 -(id <SMKDBResults>)queryParams:(NSString *)sql params:(NSArray *)params;
 
@@ -47,7 +66,7 @@
 // i.e. @"select %s,%d,%@",cstr,int,obj
 -(BOOL)queryBoolFormat:(NSString *)sql
              arguments:(va_list)args;
--(BOOL)queryBoolFormat:(NSString *)sql,...;
+-(BOOL)queryBoolFormat:(NSString *)sql,... NS_FORMAT_FUNCTION(1,2);
 // i.e. @"select a where b = $1";
 -(BOOL)queryBoolParams:(NSString *)sql params:(NSArray *)params;
 

@@ -1,13 +1,34 @@
-//
-//  SMKDBResults_mysql.m
-//  SMKDB
-//
-//  Created by Paul Houghton on 2/5/12.
-//  Copyright (c) 2012 Secure Media Keepers. All rights reserved.
-//
-
+/**
+ File:		SMKDBResults_mysql.m
+ Project:	SMKDB 
+ Desc:
+ 
+ 
+ Notes:
+ 
+ Author(s):   Paul Houghton <Paul.Houghton@SecureMediaKeepers.com>
+ Created:     02/02/2012 04:36
+ Copyright:   Copyright (c) 2012 Secure Media Keepers
+              www.SecureMediaKeepers.com
+              All rights reserved.
+ 
+ Revision History: (See ChangeLog for details)
+ 
+   $Author$
+   $Date$
+   $Revision$
+   $Name$
+   $State$
+ 
+ $Id$
+ 
+**/
 #import "SMKDBResults_mysql.h"
-#import "SMKDBRecProcMtObj.h"
+
+#undef SMKDBExcept
+#define SMKDBExcept(_fmt_,...) self.conn.doExcept    \
+                               ? [SMKDBException raise:@"SMKDB" format:_fmt_,##__VA_ARGS__] \
+                               : SMKLogError( _fmt_,##__VA_ARGS__ )
 
 @implementation SMKDBResults_mysql
 @synthesize myconn;
@@ -138,7 +159,6 @@
     MYSQL_ROW myRow = mysql_fetch_row(self.myRes);
     if( myRow ) {
         NSUInteger numFlds = [self numFields];
-        NSArray * fldNames = [self fieldNames];
         MYSQL_FIELD * resFldInfo = mysql_fetch_fields(self.myRes);
         unsigned long * myLengths = mysql_fetch_lengths(self.myRes);
         NSMutableArray * data 
@@ -180,70 +200,16 @@
     }
 }
 
--(void)fetchAllRowsDictMtRecProc:(id <SMKDBRecProcDict>)proc
+-(NSString *)description
 {
-    NSMutableDictionary * rec;
-    SMKDBRecProcDictMtObj * redirObj = [[SMKDBRecProcDictMtObj alloc] initWithRecProc:proc];
-    
-    while( (rec = [self fetchRowDict]) != nil ) {
-        [redirObj performSelectorOnMainThread:@selector(dbRecProc:) 
-                                   withObject:rec 
-                                waitUntilDone:FALSE];
+    NSMutableString * desc = [NSMutableString stringWithFormat:
+                              @"%@: fields: %lu\n",
+                              [self className],
+                              [self numFields]];
+    for( NSString * fld in [self fieldNames] ) {
+        [desc appendFormat:@"  %@\n",fld];
     }
-    [redirObj performSelectorOnMainThread:@selector(dbRecProc:) 
-                               withObject:nil 
-                            waitUntilDone:FALSE];
+    return desc;
 }
-
--(void)fetchAllRowsArrayMtRecProc:(id <SMKDBRecProcArray>)proc
-{
-    NSMutableArray * rec;
-    SMKDBRecProcArrayMtObj * redirObj = [[SMKDBRecProcArrayMtObj alloc] initWithRecProc:proc];
-    
-    while( (rec = [self fetchRowArray]) != nil ) {
-        [redirObj performSelectorOnMainThread:@selector(dbRecProc:) 
-                                   withObject:rec 
-                                waitUntilDone:FALSE];
-    }
-    [redirObj performSelectorOnMainThread:@selector(dbRecProc:) 
-                               withObject:nil 
-                            waitUntilDone:FALSE];
-    
-}
-
--(void)fetchAllRowsDictRecProc:(id <SMKDBRecProcDict>)proc
-{
-    NSMutableDictionary * rec;
-    while( (rec = [self fetchRowDict]) != nil ) {
-        [proc performSelector:@selector(dbRecProc:) withObject:rec];
-    }
-    [proc performSelector:@selector(dbRecProc:) withObject:nil];
-}
--(void)fetchAllRowsArrayRecProc:(id <SMKDBRecProcArray>)proc
-{
-    NSMutableArray * rec;
-    while( (rec = [self fetchRowArray]) != nil ) {
-        [proc performSelector:@selector(dbRecProc:) withObject:rec];
-    }
-    [proc performSelector:@selector(dbRecProc:) withObject:nil];
-}
-
--(void)fetchAllRowsDictMtObj:(id)obj proc:(SEL)sel
-{
-    NSMutableDictionary * rec;
-    while( (rec = [self fetchRowDict]) != nil ) {
-        [obj performSelectorOnMainThread:sel withObject:rec waitUntilDone:FALSE];
-    }
-    [obj performSelectorOnMainThread:sel withObject:nil waitUntilDone:FALSE];
-}
--(void)fetchAllRowsArrayMtObj:(id)obj proc:(SEL)sel
-{
-    NSMutableArray * rec;
-    while( (rec = [self fetchRowArray]) != nil ) {
-        [obj performSelectorOnMainThread:sel withObject:rec waitUntilDone:FALSE];
-    }
-    [obj performSelectorOnMainThread:sel withObject:nil waitUntilDone:FALSE];    
-}
-
 
 @end

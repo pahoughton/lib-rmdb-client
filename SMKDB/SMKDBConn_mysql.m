@@ -1,30 +1,60 @@
-//
-//  SMKDBConn_mysql.m
-//  SMKDB
-//
-//  Created by Paul Houghton on 2/5/12.
-//  Copyright (c) 2012 Secure Media Keepers. All rights reserved.
-//
+/**
+ File:		SMKDBConn_mysql.m
+ Project:	SMKDB 
+ Desc:
+ 
+ 
+ Notes:
+ 
+ Author(s):   Paul Houghton <Paul.Houghton@SecureMediaKeepers.com>
+ Created:     02/02/2012 04:36
+ Copyright:   Copyright (c) 2012 Secure Media Keepers
+              www.SecureMediaKeepers.com
+              All rights reserved.
+ 
+ Revision History: (See ChangeLog for details)
+ 
+   $Author$
+   $Date$
+   $Revision$
+   $Name$
+   $State$
+ 
+ $Id$
+ 
+**/
 
 #import "SMKDBConn_mysql.h"
 #import <mysql.h>
 #import "SMKDBException.h"
+#import <SMKLogger.h>
 #import "SMKDBResults_mysql_stmt.h"
 
-#define SMKExcpt(...) [SMKDBException toss:__VA_ARGS__]
+#undef SMKDBExcept
+#define SMKDBExcept(_fmt_,...) self.doExcept    \
+? [SMKDBException raise:@"SMKDB" format:_fmt_,##__VA_ARGS__] \
+: SMKLogError( _fmt_,##__VA_ARGS__ )
 
+static NSString * sqlDateFmtStr = @"''yyyy-MM-dd HH:mm:ss''";
+static NSDateFormatter * sqlDateFormater = nil;
 
 @implementation SMKDBConn_mysql
 @synthesize my;
 @synthesize doExcept;
 @synthesize lastErrorId;
+@synthesize binRslt;
 
 -(id)internalInit:(BOOL)throwExcept
 {
     self.doExcept = throwExcept;
+    lastErrorId = 0;
+    if( sqlDateFormater == nil ) {
+        sqlDateFormater = [[NSDateFormatter alloc]init];
+        [sqlDateFormater setDateFormat:sqlDateFmtStr];
+    }
     self.my = mysql_init(NULL);
-    if( self.my ) {
-        SMKExcpt(@"mysql_init failed");
+    if( ! self.my ) {
+        SMKDBExcept(@"mysql_init failed");
     }
     return self;
 }
@@ -49,6 +79,11 @@
     }
 }
 
+-(void)setBinResults:(BOOL)tf
+{
+    binRslt = tf;
+}
+
 #pragma mark Connection
 -(BOOL)connect:(const char *)cHost 
           port:(unsigned int)port 
@@ -70,7 +105,7 @@
         return TRUE;
     } else {
         self.lastErrorId = mysql_errno([self my]);
-        SMKExcpt([self errorMessage]);
+        SMKDBExcept([self errorMessage]);
     }
     return FALSE;
 }
@@ -101,8 +136,39 @@
     }
 }
 
--(NSString *)quote:(NSString *)strVal
+-(NSString *)q:(NSObject *)val
 {
+    NSString * strVal;
+    
+    if( [val isKindOfClass:[NSNumber class]] ) {
+        NSNumber * numVal = (NSNumber *)val;
+        return [numVal stringValue];
+        
+    } else if( [val isKindOfClass:[NSDate class]] ) {
+        NSDate * dateVal = (NSDate *)val;
+        return [sqlDateFormater stringFromDate:dateVal];
+        
+    } else if( [val isKindOfClass:[NSData class]] ) {
+        NSData * dataVal = (NSData *)val;
+        
+        char * strBuf = malloc(sizeof( char ) 
+                               * [dataVal length] 
+                               * 3);
+        unsigned long hexLen;
+        hexLen = mysql_hex_string( strBuf, 
+                               [dataVal bytes], 
+                               [dataVal length]);
+        NSMutableString * strRes = [[NSMutableString alloc] 
+                                    initWithCapacity:hexLen + 8];
+        [strRes appendFormat:@"X'%s'",strBuf];
+        free(strBuf);
+        return strRes;
+    } else if( [val isKindOfClass:[NSString class]] ) {
+        strVal = (NSString *)val;
+    } else {
+        strVal = [val description];
+    }
+
     char * strBuf = malloc(sizeof( char ) * 
                            [strVal lengthOfBytesUsingEncoding:NSUTF8StringEncoding] * 3);
     (void)mysql_real_escape_string(my, 
@@ -111,9 +177,15 @@
                                    [strVal lengthOfBytesUsingEncoding:
                                     NSUTF8StringEncoding]);
     
-    NSString * resStr = [NSString stringWithUTF8String:strBuf];
+    // NSString * resStr = [NSString stringWithUTF8String:strBuf];
+    NSString * resStr = [NSString stringWithFormat:@"'%s'",strBuf];
     free(strBuf);
     return resStr;
+}
+
+-(NSString *)quote:(NSObject *)val
+{
+    return [self q:val];
 }
 
 -(NSString *)quoteNum:(NSNumber *)numVal
@@ -123,7 +195,8 @@
 
 #pragma mark Query
 -(BOOL)queryBool:(NSString *)sql
-{
+{    
+    SMKLogDebug(@"mysql queryBool:sql: '%@'", sql);
     int ret = mysql_real_query([self my], 
                                [sql UTF8String], 
                                [sql lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
@@ -131,7 +204,7 @@
         return TRUE;
     } else {
         self.lastErrorId = mysql_errno([self my]);
-        SMKExcpt([self errorMessage]);
+        SMKDBExcept([self errorMessage]);
     }
     return FALSE;
 }
@@ -146,6 +219,7 @@
 {
     va_list args;
     va_start(args, sql);
+    // SMKLogDebug(@"mysql queryBoolFormat:arguments sql: '%@'", sql);
     NSString * fmtSql = [[NSString alloc] initWithFormat:sql arguments:args];
     va_end(args);
     
@@ -160,7 +234,7 @@
 
 -(SMKDBResults_mysql *)query:(NSString *)sql
 {
-    if( [self query:sql] ) {
+    if( [self queryBool:sql] ) {
         SMKDBResults_mysql * res =
         [[SMKDBResults_mysql alloc] 
          initWithConn:self
@@ -194,7 +268,7 @@
 -(SMKDBResults_mysql_stmt *)queryParams:(NSString *)sql 
                                  params:(NSArray *)params;
 {
-    SMKExcpt(@"queryParams unsupporte");
+    SMKDBExcept(@"queryParams unsupporte");
     return nil;
     /*
     // NSRegularExpressionSearch
@@ -211,13 +285,13 @@
     MYSQL_STMT * stmt = mysql_stmt_init([self my]);
     
     if( stmt == NULL ) {
-        SMKExcpt([self errorMessage]);
+        SMKDBExcept([self errorMessage]);
     }
     if( mysql_stmt_prepare(stmt, 
                            [fixSql UTF8String], 
                            [fixSql lengthOfBytesUsingEncoding:
                             NSUTF8StringEncoding]) ) {
-                               SMKExcpt([self errorMessage]);
+                               SMKDBExcept([self errorMessage]);
                            }
     MYSQL_BIND * bind = malloc([params count] * 2 * sizeof(MYSQL_BIND));
     memset(bind,0, sizeof( MYSQL_BIND) * [params count]);
@@ -235,15 +309,15 @@
             bind[pNum].buffer = (void*)[pData bytes];
             bind[pNum].buffer_length = [pData length];
         } else {
-            SMKExcpt(@"unsupported param type");
+            SMKDBExcept(@"unsupported param type");
         }
         ++ pNum;
     }
     if( mysql_stmt_bind_param(stmt, bind) ) {
-        SMKExcpt([self errorMessage]);
+        SMKDBExcept([self errorMessage]);
     }
     if( mysql_stmt_execute(stmt) ) {
-        SMKExcpt([self errorMessage]);        
+        SMKDBExcept([self errorMessage]);        
     }
     SMKDBResults_mysql_stmt * stmtRes;
     stmtRes = [[SMKDBResults_mysql_stmt alloc] initWithConn:self
@@ -251,5 +325,20 @@
     return stmtRes;
      */
 }
+
+-(void)beginTransaction
+{
+    (void)[self queryBool:@"BEGIN TRANSACTION"]; 
+}
+-(void)rollback
+{
+    (void)mysql_rollback([self my]);
+}
+
+-(void)commit
+{
+    (void)mysql_commit([self my]);
+}
+
 
 @end

@@ -1,21 +1,107 @@
-//
-//  SMKDBResults_postgres.m
-//  SMKDB
-//
-//  Created by Paul Houghton on 2/5/12.
-//  Copyright (c) 2012 Secure Media Keepers. All rights reserved.
-//
+/**
+ File:		SMKDBResults_postgres.m
+ Project:	SMKDB 
+ Desc:
+ 
+ Notes:
+ 
+ Author(s):   Paul Houghton <Paul.Houghton@SecureMediaKeepers.com>
+ Created:     02/05/2012 04:36
+ Copyright:   Copyright (c) 2012 Secure Media Keepers
+              www.SecureMediaKeepers.com
+              All rights reserved.
+ 
+ Revision History: (See ChangeLog for details)
+ 
+   $Author$
+   $Date$
+   $Revision$
+   $Name$
+   $State$
+ 
+ $Id$
+ 
+**/
 
 #import "SMKDBResults_postgres.h"
-#import "SMKDBRecProcMtObj.h"
+#import "SMKDBConn_postgres.h"
+#import "SMKDBTypeConv_postgres.h"
+
+@interface PGFieldInfo : NSObject
+@property (assign) int fNum;
+@property (assign) int fFormat;
+@property (assign) Oid fType;
+@property (retain) NSString * fName;
+@property (retain) SMKDBTypeConv_postgres * typeConv;
+@property (retain) id <PgConverter> conv;
+-(NSString *)description;
+@end
+
+@implementation PGFieldInfo
+
+@synthesize fNum;
+@synthesize fFormat;
+@synthesize fType;
+@synthesize fName;
+@synthesize typeConv;
+@synthesize conv;
+-(NSString *)description
+{
+    return [NSString stringWithFormat:
+            @"%@ %d %d %u %@",
+            fName,
+            fNum,
+            fFormat,
+            fType,
+            [conv class] ];
+            
+}
+@end
+
 
 @implementation SMKDBResults_postgres
 @synthesize myRes;
 @synthesize pgConn;
+@synthesize resFieldInfo;
 @synthesize resFieldNames;
 @synthesize resFieldClasses;
+@synthesize numberOfFields;
+@synthesize numberOfRows;
 @synthesize fetchRowNum;
 
+-(void) getResultsInfo 
+{
+    if( resFieldInfo == nil ) {
+        
+        resFieldInfo = [[NSMutableArray alloc] initWithCapacity:numberOfFields];
+        resFieldNames = [[NSMutableArray alloc] initWithCapacity:numberOfFields];
+        resFieldClasses = [[NSMutableArray alloc] initWithCapacity:numberOfFields];
+        for( int fNum = 0; fNum < numberOfFields; ++ fNum ) {
+            const char * pqfName = PQfname(myRes, fNum);
+            Oid pqfType = PQftype(myRes, fNum);
+            int pqfFormat = PQfformat(myRes, fNum);
+            NSString * fName = [[NSString alloc] initWithCString:pqfName encoding:NSUTF8StringEncoding];
+            
+            PGFieldInfo * finfo = [[PGFieldInfo alloc] init];
+            [finfo setFNum:fNum];
+            [finfo setFFormat:pqfFormat];
+            [finfo setFType:pqfType];
+            [finfo setFName:fName];
+            [finfo setTypeConv:[pgConn typeConvForOid:pqfType]];
+            if( pqfFormat == 1 ) {
+                [finfo setConv:[[finfo typeConv] sendConv]];
+            } else {
+                [finfo setConv:[[finfo typeConv] outConv]];
+            }
+            // SMKLogDebug(@"Field: %@", finfo);
+
+            [resFieldNames addObject:fName];
+            [resFieldInfo addObject:finfo];
+            // for now
+            [resFieldClasses addObject:[[NSObject alloc] init]];
+        }
+    }    
+}
 -(id)initWithRes:(PGresult *)res conn:(SMKDBConn_postgres *)conn
 {
     self = [super init];
@@ -23,6 +109,12 @@
         myRes = res;
         pgConn = conn;
         fetchRowNum = 0;
+        numberOfRows = PQntuples(myRes);
+        numberOfFields = PQnfields(res);
+        resFieldInfo = nil;
+        resFieldNames = nil;
+        resFieldClasses = nil;
+        [self getResultsInfo];
     }
     return self;
 }
@@ -34,19 +126,13 @@
 
 -(NSUInteger)numFields
 {
-    return  [[NSNumber numberWithInt:PQnfields(myRes)] unsignedIntegerValue];
+    return numberOfFields;
 }
 
 -(NSArray *)fieldNames
 {
     if( resFieldNames == nil ) {
-        int numFlds = (int)[self numFields];
-        NSMutableArray * names = [[NSMutableArray alloc] initWithCapacity:numFlds];
-        int f = 0;
-        for( ; f < numFlds; ++ f ) {
-            [names addObject:[NSString stringWithUTF8String:PQfname(myRes, f)]];
-        }
-        resFieldNames = names;
+        [self getResultsInfo];
     }
     return resFieldNames;
 }
@@ -54,16 +140,7 @@
 -(NSArray *)fieldTypes
 {
     if( resFieldClasses == nil ) {
-        int fnum = 0;
-        int numFlds = (int)[self numFields];
-        NSMutableArray * types = [[NSMutableArray alloc] initWithCapacity:numFlds];
-        for( ; fnum < numFlds; ++ fnum ) {
-            if( PQfformat(myRes, fnum) == 0 ) {
-                [types addObject:[[NSString alloc] init]];
-            } else {
-                [types addObject:[[NSData alloc] init]];
-            }
-        }
+        [self getResultsInfo];
     }
     return resFieldClasses;
 }
@@ -71,145 +148,73 @@
 -(NSMutableDictionary *)fetchRowDict
 {
     if( fetchRowNum < PQntuples(myRes) ) {
-        NSArray * fNames = [self fieldNames];
-        
         NSMutableDictionary * rec = [[NSMutableDictionary alloc] 
-                                     initWithCapacity:[fNames count]];
-        int fNum = 0;
-        for( NSString * fldName in fNames ) {
-            if( PQfformat(myRes, fNum) == 0 ) {
-                //string
-                if( PQgetisnull(myRes, fetchRowNum, fNum)
-                   || PQgetlength(myRes, fetchRowNum, fNum) ) {
-                    [rec setObject:[[NSString alloc] init] 
-                            forKey:[resFieldNames objectAtIndex:fNum]];
-                } else {
-                    [rec setObject:[[NSString alloc] 
-                                    initWithUTF8String:
-                                    PQgetvalue(myRes, fetchRowNum, fNum)] 
-                         forKey:[resFieldNames objectAtIndex:fNum]];
-                }
+                                     initWithCapacity:numberOfFields];
+
+        PgConvArgs * convArgs = [[PgConvArgs alloc]init];
+        for( PGFieldInfo * info in resFieldInfo ) {
+
+            [convArgs setDataLen:PQgetlength(myRes, fetchRowNum, [info fNum])];
+            [convArgs setData:PQgetvalue(myRes, fetchRowNum, [info fNum])];
+            [convArgs setIsNull:PQgetisnull(myRes, fetchRowNum, [info fNum])];
+            
+            if( [convArgs isNull] || [convArgs dataLen] == 0 ) {
+                [rec setObject:[[SMKDBNull alloc]init] forKey:[info fName]];
             } else {
-                // data
-                if( PQgetisnull(myRes, fetchRowNum, fNum)
-                   || PQgetlength(myRes, fetchRowNum, fNum) ) {
-                    [rec setObject:[[NSData alloc] init] 
-                            forKey:[resFieldNames objectAtIndex:fNum]];
-                } else {
-                    [rec setObject:[NSData 
-                                    dataWithBytes: PQgetvalue(myRes, fetchRowNum, fNum)
-                                    length:PQgetlength(myRes, fetchRowNum, fNum)]
-                            forKey:[resFieldNames objectAtIndex:fNum]];
-                }
+                NSObject * objVal = [[info conv] conv:convArgs];
+                [rec setObject:objVal forKey:[info fName]];
             }
         }
         ++ fetchRowNum;
         return rec;
     } else {
+        resFieldNames = nil;
+        resFieldClasses = nil;
+        resFieldInfo = nil;
         return nil;
     }
 }
 -(NSMutableArray *)fetchRowArray
 {
     if( fetchRowNum < PQntuples(myRes) ) {
-        NSArray * fNames = [self fieldNames];
         
         NSMutableArray * rec = [[NSMutableArray alloc] 
-                                initWithCapacity:[fNames count]];
-        int fNum = 0;
-        for( NSString * fldName in fNames ) {
-            if( PQfformat(myRes, fNum) == 0 ) {
-                //string
-                if( PQgetisnull(myRes, fetchRowNum, fNum)
-                   || PQgetlength(myRes, fetchRowNum, fNum) ) {
-                    [rec addObject:[[NSString alloc] init]];
-                } else {
-                    [rec addObject:[[NSString alloc] 
-                                    initWithUTF8String:
-                                     PQgetvalue(myRes, fetchRowNum, fNum)]]; 
-                }
+                                initWithCapacity:[resFieldInfo count]];
+        PgConvArgs * convArgs = [[PgConvArgs alloc]init];
+        for( PGFieldInfo * info in resFieldInfo ) {
+            
+            [convArgs setDataLen:PQgetlength(myRes, fetchRowNum, [info fNum])];
+            [convArgs setData:PQgetvalue(myRes, fetchRowNum, [info fNum])];
+            [convArgs setIsNull:PQgetisnull(myRes, fetchRowNum, [info fNum])];
+            
+            
+            if( [convArgs isNull] || [convArgs dataLen] == 0 ) {
+                [rec addObject:[[SMKDBNull alloc]init]];
             } else {
-                // data
-                if( PQgetisnull(myRes, fetchRowNum, fNum)
-                   || PQgetlength(myRes, fetchRowNum, fNum) ) {
-                    [rec addObject:[[NSData alloc] init]];
-                } else {
-                    [rec addObject:[NSData 
-                                    dataWithBytes: PQgetvalue(myRes, fetchRowNum, fNum)
-                                    length:PQgetlength(myRes, fetchRowNum, fNum)]];
-                }
+                NSObject * objVal = [[info conv] conv:convArgs];
+                [rec addObject:objVal];
             }
         }
         ++ fetchRowNum;
         return rec;
     } else {
+        resFieldNames = nil;
+        resFieldClasses = nil;
+        resFieldInfo = nil;
         return nil;
     }
 }
 
--(void)fetchAllRowsDictMtRecProc:(id <SMKDBRecProcDict>)proc
+-(NSString *)description
 {
-    NSMutableDictionary * rec;
-    SMKDBRecProcDictMtObj * redirObj = [[SMKDBRecProcDictMtObj alloc] initWithRecProc:proc];
-    
-    while( (rec = [self fetchRowDict]) != nil ) {
-        [redirObj performSelectorOnMainThread:@selector(dbRecProc:) 
-                                   withObject:rec 
-                                waitUntilDone:FALSE];
+    NSMutableString * desc = [NSMutableString stringWithFormat:
+                              @"%@: fields: %lu\n",
+                              [self className],
+                              [self numFields]];
+    for( NSString * fld in [self fieldNames] ) {
+        [desc appendFormat:@"  %@\n"];
     }
-    [redirObj performSelectorOnMainThread:@selector(dbRecProc:) 
-                               withObject:nil 
-                            waitUntilDone:FALSE];
-}
-
--(void)fetchAllRowsArrayMtRecProc:(id <SMKDBRecProcArray>)proc
-{
-    NSMutableArray * rec;
-    SMKDBRecProcArrayMtObj * redirObj = [[SMKDBRecProcArrayMtObj alloc] initWithRecProc:proc];
-    
-    while( (rec = [self fetchRowArray]) != nil ) {
-        [redirObj performSelectorOnMainThread:@selector(dbRecProc:) 
-                                   withObject:rec 
-                                waitUntilDone:FALSE];
-    }
-    [redirObj performSelectorOnMainThread:@selector(dbRecProc:) 
-                               withObject:nil 
-                            waitUntilDone:FALSE];
-    
-}
-
--(void)fetchAllRowsDictRecProc:(id <SMKDBRecProcDict>)proc
-{
-    NSMutableDictionary * rec;
-    while( (rec = [self fetchRowDict]) != nil ) {
-        [proc performSelector:@selector(dbRecProc:) withObject:rec];
-    }
-    [proc performSelector:@selector(dbRecProc:) withObject:nil];
-}
--(void)fetchAllRowsArrayRecProc:(id <SMKDBRecProcArray>)proc
-{
-    NSMutableArray * rec;
-    while( (rec = [self fetchRowArray]) != nil ) {
-        [proc performSelector:@selector(dbRecProc:) withObject:rec];
-    }
-    [proc performSelector:@selector(dbRecProc:) withObject:nil];
-}
-
--(void)fetchAllRowsDictMtObj:(id)obj proc:(SEL)sel
-{
-    NSMutableDictionary * rec;
-    while( (rec = [self fetchRowDict]) != nil ) {
-        [obj performSelectorOnMainThread:sel withObject:rec waitUntilDone:FALSE];
-    }
-    [obj performSelectorOnMainThread:sel withObject:nil waitUntilDone:FALSE];
-}
--(void)fetchAllRowsArrayMtObj:(id)obj proc:(SEL)sel
-{
-    NSMutableArray * rec;
-    while( (rec = [self fetchRowArray]) != nil ) {
-        [obj performSelectorOnMainThread:sel withObject:rec waitUntilDone:FALSE];
-    }
-    [obj performSelectorOnMainThread:sel withObject:nil waitUntilDone:FALSE];    
+    return desc;
 }
 
 

@@ -1,26 +1,70 @@
-//
-//  SMKDBConn_postgres.m
-//  SMKDB
-//
-//  Created by Paul Houghton on 2/5/12.
-//  Copyright (c) 2012 Secure Media Keepers. All rights reserved.
-//
+/**
+ File:		SMKDBConn_postgres.m
+ Project:	SMKDB 
+ Desc:
+ 
+ Notes:
+ 
+ Author(s):   Paul Houghton <Paul.Houghton@SecureMediaKeepers.com>
+ Created:     02/05/2012 04:36
+ Copyright:   Copyright (c) 2012 Secure Media Keepers
+              www.SecureMediaKeepers.com
+              All rights reserved.
+ 
+ Revision History: (See ChangeLog for details)
+ 
+   $Author$
+   $Date$
+   $Revision$
+   $Name$
+   $State$
+ 
+ $Id$
+ 
+**/
 
 #import "SMKDBConn_postgres.h"
+#import "SMKDBTypeConv_postgres.h"
 #import "SMKDBException.h"
 
-#define SMKExcpt(...) [SMKDBException toss:__VA_ARGS__]
+#undef SMKDBExcept
+#define SMKDBExcept(_fmt_,...) self.doExcept    \
+? [SMKDBException raise:@"SMKDB" format:_fmt_,##__VA_ARGS__] \
+: SMKLogError( _fmt_,##__VA_ARGS__ )
+
+static NSString * sqlDateFmtStr = @"''yyyy-MM-dd HH:mm:ss''";
+static NSString * paramDateFmtStr = @"yyyy-MM-dd HH:mm:ss";
+
+static NSDateFormatter * sqlDateFormater = nil;
+static NSDateFormatter * paramDateFormater = nil;
+
+static NSMutableDictionary * serverTypeOidConverters = nil;
 
 @implementation SMKDBConn_postgres
+@synthesize serverId;
 @synthesize conn;
-@synthesize doExcpt;
+@synthesize doExcept;
+@synthesize binRslts;
 
 -(id)init
 {
     self = [super init];
     if( self ) {
         conn = NULL;
-        doExcpt = TRUE;
+        doExcept = TRUE;
+        binRslts = TRUE;
+        if( serverTypeOidConverters == nil ) {
+            serverTypeOidConverters = 
+            [[NSMutableDictionary alloc]init];
+        }
+        if( sqlDateFormater == nil ) {
+            sqlDateFormater = [[NSDateFormatter alloc]init];
+            [sqlDateFormater setDateFormat:sqlDateFmtStr];
+        }
+        if( paramDateFormater == nil ) {
+            paramDateFormater = [[NSDateFormatter alloc]init];
+            [paramDateFormater setDateFormat:paramDateFmtStr];
+        }
     }
     return self;
 }
@@ -30,9 +74,27 @@
     self = [super init];
     if (self) {
         conn = NULL;
-        doExcpt = throwExceptions;
+        doExcept = throwExceptions;
+        binRslts = TRUE;
+        if( serverTypeOidConverters == nil ) {
+            serverTypeOidConverters = 
+            [[NSMutableDictionary alloc]init];
+        }
+        if( sqlDateFormater == nil ) {
+            sqlDateFormater = [[NSDateFormatter alloc]init];
+            [sqlDateFormater setDateFormat:sqlDateFmtStr];
+        }
+        if( paramDateFormater == nil ) {
+            paramDateFormater = [[NSDateFormatter alloc]init];
+            [paramDateFormater setDateFormat:paramDateFmtStr];
+        }
     }
     return self;
+}
+
+-(void)setBinResults:(BOOL)tf
+{
+    binRslts = tf;
 }
 
 -(BOOL)connect:(const char *)cHost 
@@ -85,10 +147,11 @@
     
     conn = PQconnectdbParams(connKeys, connVals, 0 );
     if( PQstatus(conn) == CONNECTION_OK ) {
+        serverId = [NSString stringWithFormat:@"%s:%d",cHost,port];
         return TRUE;
     } else {
-        if( doExcpt ) {
-            SMKExcpt([self errorMessage]);
+        if( doExcept ) {
+            SMKDBExcept([self errorMessage]);
             return FALSE;
         } else {
             return FALSE;
@@ -113,7 +176,9 @@
 
 -(NSString *)errorMessage
 {
-    return [[NSString alloc]initWithUTF8String:PQerrorMessage(conn)];
+    const char * errMsg = PQerrorMessage(conn);
+    SMKLogError(@"pg error %s", errMsg);
+    return [[NSString alloc]initWithUTF8String:errMsg];
 }
 
 -(NSString *)resultsErrorMessage:(PGresult *)res
@@ -121,38 +186,105 @@
     return [[NSString alloc]initWithUTF8String:PQresultErrorMessage(res)];
 }
 
--(NSString *)quote:(NSString *)strVal
+-(NSString *)q:(NSObject *) val
 {
+    NSString * strVal;
+    
+    if( [val isKindOfClass:[NSNumber class]] ) {
+        NSNumber * numVal = (NSNumber *)val;
+        return [numVal stringValue];
+        
+    } else if( [val isKindOfClass:[NSDate class]] ) {
+        NSDate * dateVal = (NSDate *)val;
+        return [sqlDateFormater stringFromDate:dateVal];
+        
+    } else if( [val isKindOfClass:[NSData class]] ) {
+        NSData * dataVal = (NSData *)val;
+        size_t conv_len = 0;
+        unsigned char * escData 
+        = PQescapeByteaConn([self conn],
+                            [dataVal bytes], 
+                            [dataVal length],
+                            &conv_len);
+        NSMutableString *  escStr = [[NSMutableString alloc] 
+                                     initWithCapacity:conv_len + 16];
+        [escStr appendFormat:@"E'%s'",escData];
+            
+        PQfreemem(escData);
+        return escStr;
+        
+    } else if( [val isKindOfClass:[NSString class]] ) {
+        strVal = (NSString *)val;
+    } else {
+        strVal = [val description];
+    }
     char * quoted = PQescapeLiteral([self conn], 
                                     [strVal UTF8String], 
                                     [strVal lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
-    NSString * qNs = [[NSString alloc] initWithCString:quoted encoding:NSUTF8StringEncoding];
+    NSString * qNs = [[NSString alloc] initWithCString:quoted 
+                                              encoding:NSUTF8StringEncoding];
     PQfreemem(quoted);
     return qNs;
 }
-
--(NSString *)quoteNum:(NSNumber *)numVal
+-(NSString *)quote:(NSObject  *)val
 {
-    return [numVal stringValue];
+    return [self q:val];
 }
 
+-(void)setServerOidConv
+{
+    if( [serverTypeOidConverters objectForKey:serverId] == nil ) {
+        NSMutableDictionary * typInfoTable = [[NSMutableDictionary alloc]init];
+        
+        PGresult * tRslts = 
+        PQexec(conn, "select oid, typname, typsend, typoutput from pg_type");
+        int numRows = PQntuples(tRslts);
+        for( int r = 0; r < numRows; ++ r ) {
+            Oid typeOid;
+            NSString * tmp = [NSString stringWithUTF8String:PQgetvalue(tRslts, r, 0)];
+            typeOid = (Oid)[tmp integerValue];
+            
+            NSString * tName = [NSString stringWithUTF8String:PQgetvalue(tRslts, r, 1)];
+            NSString * tSend = [NSString stringWithUTF8String:PQgetvalue(tRslts, r, 2)];
+            NSString * tOut = [NSString stringWithUTF8String:PQgetvalue(tRslts, r, 3)];
+            SMKDBTypeConv_postgres * tConv;
+            tConv = [SMKDBTypeConv_postgres alloc];
+            tConv = [tConv initTypeConv:tName 
+                                  tSend:tSend 
+                                   tOut:tOut];
+            
+            [typInfoTable setObject:tConv forKey:[NSNumber numberWithUnsignedInt:typeOid]];
+        }
+        [serverTypeOidConverters setObject:typInfoTable forKey:serverId];
+    }
+}
 -(SMKDBResults_postgres *)query:(NSString *)sql
 {
-    PGresult * res;
-    res = PQexec(conn, [sql UTF8String]);
-    if( PQresultStatus(res) != PGRES_TUPLES_OK
-       && PQresultStatus(res) != PGRES_COMMAND_OK ) {
-        // yuck
-        if( doExcpt ) {
-            SMKExcpt(@"%@\nsql:%@",[self resultsErrorMessage:res],sql);
-            return  nil;
-        } else {
-            return nil;
-        }
+    // grab the output format values
+    if( [serverTypeOidConverters objectForKey:serverId] == nil ) {
+        [self setServerOidConv];
+    }
+    
+    if( binRslts ) {
+        return [self queryParams:sql params:nil];
     } else {
-        SMKDBResults_postgres * pgRes;
-        pgRes = [[SMKDBResults_postgres alloc]initWithRes:res conn:self];
-        return pgRes;
+        PGresult * res;
+        res = PQexec(conn, [sql UTF8String]);
+        ExecStatusType resStatus = PQresultStatus(res); 
+        if( resStatus != PGRES_TUPLES_OK
+           && resStatus != PGRES_COMMAND_OK ) {
+            // yuck
+            if( doExcept ) {
+                SMKDBExcept(@"%@\nsql:%@",[self resultsErrorMessage:res],sql);
+                return  nil;
+            } else {
+                return nil;
+            }
+        } else {
+            SMKDBResults_postgres * pgRes;
+            pgRes = [[SMKDBResults_postgres alloc]initWithRes:res conn:self];
+            return pgRes;
+        }
     }
 }
 // i.e. @"select %s,%d,%@",cstr,int,obj
@@ -175,51 +307,73 @@
 // i.e. @"select a where b = $1";
 -(SMKDBResults_postgres *)queryParams:(NSString *)sql params:(NSArray *)params
 {
-    const char  ** pValues = malloc(([params count] + 2) * sizeof(const char *));
-    int * pLengths = malloc(([params count] + 2) * sizeof(int *));
-    int * pFormats = malloc(([params count] + 2) * sizeof(int*));
-
-    // this is a little harry, but ...
+    if( [serverTypeOidConverters objectForKey:serverId] == nil ) {
+        [self setServerOidConv];
+    }
+    
+    const char ** pValues = NULL;
+    int * pLengths = NULL;
+    int * pFormats = NULL;
     int pCnt = 0;
-    for( id p in params) {
-        if( [p isKindOfClass:[NSData class]] ) {
-            pValues[pCnt] = (const char *)[p bytes];
-            pLengths[pCnt] = (int)[p length];
-            pFormats[pCnt] = 1;
-        
-        } else if( [p isKindOfClass:[NSNumber class]] ) {
-            NSString * tmp = [p stringValue];
-            pValues[pCnt] = [tmp UTF8String];
-            pLengths[pCnt] = (int)[tmp lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-            pFormats[pCnt] = 0;
-            
-        } else if( [p isKindOfClass:[NSString class]] ) {
-            pValues[pCnt] = [p UTF8String];
-            pLengths[pCnt] = (int)[p lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-            pFormats[pCnt] = 0;
-        } else { 
-            SMKExcpt(@"unsupport type in queryParams %@",[p className]);
+    
+    if( params != nil ) {
+        pValues = malloc(([params count] + 2) * sizeof(const char *));
+        pLengths = malloc(([params count] + 2) * sizeof(int *));
+        pFormats = malloc(([params count] + 2) * sizeof(int*));
+
+        // this is a little harry, but ...
+        for( id p in params) {
+            if( [p isKindOfClass:[NSData class]] ) {
+                pValues[pCnt] = (const char *)[p bytes];
+                pLengths[pCnt] = (int)[p length];
+                pFormats[pCnt] = 1;
+                
+            } else if( [p isKindOfClass:[NSNumber class]] ) {
+                NSString * tmp = [p stringValue];
+                pValues[pCnt] = [tmp UTF8String];
+                pLengths[pCnt] = (int)[tmp lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+                pFormats[pCnt] = 0;
+                
+            } else if( [p isKindOfClass:[NSDate class]] ) {
+                NSDate * dateVal = (NSDate *)p;
+                NSString * tmp = [paramDateFormater stringFromDate:dateVal];
+                pValues[pCnt] = [tmp UTF8String];
+                pLengths[pCnt] = (int)[tmp lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+                pFormats[pCnt] = 0;
+                
+            } else if( [p isKindOfClass:[NSString class]] ) {
+                pValues[pCnt] = [p UTF8String];
+                pLengths[pCnt] = (int)[p lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+                pFormats[pCnt] = 0;
+            } else { 
+                SMKDBExcept(@"unsupport type in queryParams %@",[p className]);
+            }
+            ++ pCnt;
         }
     }
     PGresult * res;
     res = PQexecParams(conn, 
                        [sql UTF8String], 
-                       (int)[params count], 
+                       pCnt, 
                        NULL, 
                        pValues, 
                        pLengths, 
                        pFormats, 
-                       1);
+                       binRslts ? 1 : 0);
 
-    free(pValues);
-    free(pLengths);
-    free(pFormats);
+    if( pValues )
+        free(pValues);
+    if( pLengths )
+        free(pLengths);
+    if( pFormats )
+        free(pFormats);
     
-    if( PQresultStatus(res) != PGRES_TUPLES_OK
-       && PQresultStatus(res) != PGRES_COMMAND_OK ) {
+    ExecStatusType resStatus = PQresultStatus(res); 
+    if( resStatus != PGRES_TUPLES_OK
+       && resStatus != PGRES_COMMAND_OK ) {
         // yuck
-        if( doExcpt ) {
-            SMKExcpt(@"%@\nsql:%@",[self resultsErrorMessage:res],sql);
+        if( doExcept ) {
+            SMKDBExcept(@"%@\nsql:%@",[self resultsErrorMessage:res],sql);
             return  nil;
         } else {
             return nil;
@@ -239,7 +393,7 @@
     if( res != nil ) {
         return TRUE;
     }
-    return FALSE;
+    return  FALSE;
 }
 // i.e. @"select %s,%d,%@",cstr,int,obj
 -(BOOL)queryBoolFormat:(NSString *)sql
@@ -280,6 +434,13 @@
     (void)[self queryBool:@"COMMIT"];        
 }
 
+-(SMKDBTypeConv_postgres *)typeConvForOid:(Oid)oid
+{
+    NSDictionary * svrConvTbl = 
+    [serverTypeOidConverters objectForKey:serverId];
+    return [svrConvTbl objectForKey:
+            [NSNumber numberWithUnsignedInt:oid]];
+}
 
 -(void) dealloc
 {

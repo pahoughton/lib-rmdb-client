@@ -1,17 +1,34 @@
-//
-//  TestDBInfo.m
-//  SMKDB
-//
-//  Created by Paul Houghton on 2/6/12.
-//  Copyright (c) 2012 Secure Media Keepers. All rights reserved.
-//
-
+/**
+ File:		TestDBInfo.m
+ Project:	SMKDB 
+ Desc:
+ 
+ 
+ Notes:
+ 
+ Author(s):   Paul Houghton <Paul.Houghton@SecureMediaKeepers.com>
+ Created:     02/06/2012 04:36
+ Copyright:   Copyright (c) 2012 Secure Media Keepers
+              www.SecureMediaKeepers.com
+              All rights reserved.
+ 
+ Revision History: (See ChangeLog for details)
+ 
+   $Author$
+   $Date$
+   $Revision$
+   $Name$
+   $State$
+ 
+ $Id$
+ 
+**/
 #import "TestDBInfo.h"
 
 @implementation TestDBInfo
 -(enum SMKDB_TYPE)dbType
 {
-    return DB_MySql;
+    return DB_Postgess;
 }
 
 -(NSString *)dbHost

@@ -1,11 +1,28 @@
-//
-//  SMKDBResults_mysql.h
-//  SMKDB
-//
-//  Created by Paul Houghton on 2/5/12.
-//  Copyright (c) 2012 Secure Media Keepers. All rights reserved.
-//
-
+/**
+ File:		SMKDBResults_mysql.h
+ Project:	SMKDB 
+ Desc:
+ 
+ 
+ Notes:
+ 
+ Author(s):   Paul Houghton <Paul.Houghton@SecureMediaKeepers.com>
+ Created:     02/02/2012 04:36
+ Copyright:   Copyright (c) 2012 Secure Media Keepers
+              www.SecureMediaKeepers.com
+              All rights reserved.
+ 
+ Revision History: (See ChangeLog for details)
+ 
+   $Author$
+   $Date$
+   $Revision$
+   $Name$
+   $State$
+ 
+ $Id$
+ 
+**/
 #import <Foundation/Foundation.h>
 #import "SMKDB.h"
 #import <mysql.h>
@@ -30,14 +47,6 @@
 -(NSMutableDictionary *)fetchRowDict;
 -(NSMutableArray *)fetchRowArray;
 
--(void)fetchAllRowsDictMtRecProc:(id <SMKDBRecProcDict>)proc;
--(void)fetchAllRowsArrayMtRecProc:(id <SMKDBRecProcArray>)proc;
-
--(void)fetchAllRowsDictRecProc:(id <SMKDBRecProcDict>)proc;
--(void)fetchAllRowsArrayRecProc:(id <SMKDBRecProcArray>)proc;
-
--(void)fetchAllRowsDictMtObj:(id)obj proc:(SEL)sel;
--(void)fetchAllRowsArrayMtObj:(id)obj proc:(SEL)sel;
-
+-(NSString *)description;
 
 @end
