@@ -159,7 +159,7 @@
             [convArgs setIsNull:PQgetisnull(myRes, fetchRowNum, [info fNum])];
             
             if( [convArgs isNull] || [convArgs dataLen] == 0 ) {
-                [rec setObject:[[SMKDBNull alloc]init] forKey:[info fName]];
+                [rec setObject:[SMKDBNull null] forKey:[info fName]];
             } else {
                 NSObject * objVal = [[info conv] conv:convArgs];
                 [rec setObject:objVal forKey:[info fName]];
@@ -189,7 +189,7 @@
             
             
             if( [convArgs isNull] || [convArgs dataLen] == 0 ) {
-                [rec addObject:[[SMKDBNull alloc]init]];
+                [rec addObject:[SMKDBNull null]];
             } else {
                 NSObject * objVal = [[info conv] conv:convArgs];
                 [rec addObject:objVal];

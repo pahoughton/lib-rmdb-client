@@ -369,7 +369,7 @@
 		DA59971C14DC04C800BAEECE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = "Secure Media Keepers";
 			};
 			buildConfigurationList = DA59971F14DC04C800BAEECE /* Build configuration list for PBXProject "SMKDB" */;
@@ -531,6 +531,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SMKDB/SMKDB-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
+					"$(TARGET_BUILD_DIR)/Support/include",
 					/Support/include,
 					/usr/local/mysql/include,
 				);
@@ -557,6 +558,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SMKDB/SMKDB-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
+					"$(TARGET_BUILD_DIR)/Support/include",
 					/Support/include,
 					/usr/local/mysql/include,
 				);
