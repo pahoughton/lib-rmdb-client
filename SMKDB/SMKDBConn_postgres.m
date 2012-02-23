@@ -144,7 +144,9 @@ static NSMutableDictionary * serverTypeOidConverters = nil;
     
     connKeys[ pCnt ] = 0;
     connVals[ pCnt ] = 0;
-    
+    for( int i  = 0; connKeys[ i ] != 0; ++ i ) {
+        SMKLogDebug(@"PG Conn: %s %s",connKeys[i], connVals[i]);
+    }
     conn = PQconnectdbParams(connKeys, connVals, 0 );
     if( PQstatus(conn) == CONNECTION_OK ) {
         serverId = [NSString stringWithFormat:@"%s:%d",cHost,port];

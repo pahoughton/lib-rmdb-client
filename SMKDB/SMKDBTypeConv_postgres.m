@@ -222,14 +222,16 @@
 @implementation PgConv_date_send
 -(NSObject *)conv:(PgConvArgs *)convArgs
 {
-        NSAssert([convArgs dataLen] == 4, @"date len != 4 %d", [convArgs dataLen]);
-        uint32_t intVal = ntohl(*(int32_t *)[convArgs data]);
-        // postgres ref date seems to be 1,1,2000 where obj c likes 1,1,2001 
-        // so lets give this a shot
-        NSDate * ref = [NSDate dateWithString:@"2000-01-01 00:00:00 +0000"];
-        NSDate * dt = [[NSDate alloc] initWithTimeInterval:intVal sinceDate:ref];
-        SMKLogDebug(@"date: %lu %lf %@ %@", intVal, [ref timeIntervalSinceReferenceDate], dt, ref );
-        return dt; 
+    NSAssert([convArgs dataLen] == 4, @"date len != 4 %d", [convArgs dataLen]);
+    int32_t intVal = ntohl(*(int32_t *)[convArgs data]);
+    int64_t i64 = intVal;
+    i64 = i64 * 24 * 60 * 60;
+    // postgres ref date seems to be 1,1,2000 where obj c likes 1,1,2001 
+    // so lets give this a shot
+    NSDate * ref = [NSDate dateWithString:@"2000-01-01 00:00:00 +0000"];
+    NSDate * dt = [[NSDate alloc] initWithTimeInterval:i64 sinceDate:ref];
+    // SMKLogDebug(@"date:\n  %@\n  %u %lu %lf %@", dt,intVal, i64, [ref timeIntervalSinceReferenceDate], ref );
+    return dt; 
 }
 @end
 

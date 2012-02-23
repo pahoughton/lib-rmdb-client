@@ -25,7 +25,10 @@
 **/
 #import <Foundation/Foundation.h>
 
-#define SMKisNULL( _o_ ) (_o_ == nil || (NSNull*)_o_ == [NSNull null])
+#define SMKisNULL( _o_ ) \
+(_o_ == nil \
+ || (NSNull*)_o_ == [NSNull null] \
+ || ([_o_ isKindOfClass:[NSString class]] && [(NSString *)_o_ length] == 0) )
 
 @interface SMKDBNull : NSNull
 
