@@ -7,15 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA2FA08F14E1705500CC6CE9 /* libmysqlclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59976114DC083800BAEECE /* libmysqlclient.a */; };
 		DA2FA09B14E17E9A00CC6CE9 /* Kerberos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA09A14E17E9A00CC6CE9 /* Kerberos.framework */; };
 		DA2FA09D14E17ED800CC6CE9 /* libssl.0.9.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA09514E17AF000CC6CE9 /* libssl.0.9.8.dylib */; };
 		DA2FA09F14E17EED00CC6CE9 /* libcrypto.0.9.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA09E14E17EED00CC6CE9 /* libcrypto.0.9.8.dylib */; };
 		DA2FA0A114E17F1400CC6CE9 /* LDAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA0A014E17F1400CC6CE9 /* LDAP.framework */; };
-		DA2FA0A814E18E9800CC6CE9 /* lib_pah_pq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA0A714E18E9800CC6CE9 /* lib_pah_pq.a */; };
-		DA2FA0A914E1919D00CC6CE9 /* lib_pah_pq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA0A714E18E9800CC6CE9 /* lib_pah_pq.a */; };
 		DA2FA0AA14E191A200CC6CE9 /* libcrypto.0.9.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA09E14E17EED00CC6CE9 /* libcrypto.0.9.8.dylib */; };
-		DA2FA0AC14E191BF00CC6CE9 /* libSMKCocoaCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA0AB14E191BF00CC6CE9 /* libSMKCocoaCommon.a */; };
 		DA2FA0AD14E191F500CC6CE9 /* libssl.0.9.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA09514E17AF000CC6CE9 /* libssl.0.9.8.dylib */; };
 		DA2FA0AE14E191FA00CC6CE9 /* Kerberos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA09A14E17E9A00CC6CE9 /* Kerberos.framework */; };
 		DA2FA0AF14E191FF00CC6CE9 /* LDAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA0A014E17F1400CC6CE9 /* LDAP.framework */; };
@@ -23,7 +19,6 @@
 		DA2FA0BA14E1BC5B00CC6CE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59972D14DC04C800BAEECE /* Foundation.framework */; };
 		DA2FA0BB14E1BC6600CC6CE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59972D14DC04C800BAEECE /* Foundation.framework */; };
 		DA2FA0CA14E2057800CC6CE9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59972814DC04C800BAEECE /* Cocoa.framework */; };
-		DA2FA0CB14E205F500CC6CE9 /* libSMKCocoaCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2FA0AB14E191BF00CC6CE9 /* libSMKCocoaCommon.a */; };
 		DA33A43714E67D450015C53F /* SMKDBTypeConv_postgres.h in Headers */ = {isa = PBXBuildFile; fileRef = DA33A43514E67D450015C53F /* SMKDBTypeConv_postgres.h */; };
 		DA33A43814E67D450015C53F /* SMKDBTypeConv_postgres.m in Sources */ = {isa = PBXBuildFile; fileRef = DA33A43614E67D450015C53F /* SMKDBTypeConv_postgres.m */; };
 		DA34FAA114DE83350027B628 /* SMKDBConnMgr.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FA9F14DE83350027B628 /* SMKDBConnMgr.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -48,7 +43,6 @@
 		DA59975A14DC054100BAEECE /* SMKDB.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975214DC054100BAEECE /* SMKDB.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA59975B14DC054100BAEECE /* SMKDBConn.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975314DC054100BAEECE /* SMKDBConn.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA59975F14DC054100BAEECE /* SMKDBResults.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975714DC054100BAEECE /* SMKDBResults.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DA59976214DC083800BAEECE /* libmysqlclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59976114DC083800BAEECE /* libmysqlclient.a */; };
 		DA6DE63314E28C49009D120F /* SMKDBGatherer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6DE63114E28C49009D120F /* SMKDBGatherer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA6DE63414E28C49009D120F /* SMKDBGatherer.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6DE63214E28C49009D120F /* SMKDBGatherer.m */; };
 		DAEC210014E97B1D00732376 /* SMKDBNull.h in Headers */ = {isa = PBXBuildFile; fileRef = DAEC20FE14E97B1D00732376 /* SMKDBNull.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,8 +64,6 @@
 		DA2FA09A14E17E9A00CC6CE9 /* Kerberos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kerberos.framework; path = System/Library/Frameworks/Kerberos.framework; sourceTree = SDKROOT; };
 		DA2FA09E14E17EED00CC6CE9 /* libcrypto.0.9.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.0.9.8.dylib; path = usr/lib/libcrypto.0.9.8.dylib; sourceTree = SDKROOT; };
 		DA2FA0A014E17F1400CC6CE9 /* LDAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LDAP.framework; path = /System/Library/Frameworks/LDAP.framework; sourceTree = "<absolute>"; };
-		DA2FA0A714E18E9800CC6CE9 /* lib_pah_pq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = lib_pah_pq.a; path = ../../../../lib/lib_pah_pq.a; sourceTree = "<group>"; };
-		DA2FA0AB14E191BF00CC6CE9 /* libSMKCocoaCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSMKCocoaCommon.a; path = /Support/lib/libSMKCocoaCommon.a; sourceTree = "<absolute>"; };
 		DA2FA0B014E1920F00CC6CE9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DA33A43514E67D450015C53F /* SMKDBTypeConv_postgres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMKDBTypeConv_postgres.h; path = SMKDB/SMKDBTypeConv_postgres.h; sourceTree = "<group>"; };
 		DA33A43614E67D450015C53F /* SMKDBTypeConv_postgres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMKDBTypeConv_postgres.m; path = SMKDB/SMKDBTypeConv_postgres.m; sourceTree = "<group>"; };
@@ -108,7 +100,6 @@
 		DA59975214DC054100BAEECE /* SMKDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDB.h; sourceTree = "<group>"; };
 		DA59975314DC054100BAEECE /* SMKDBConn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBConn.h; sourceTree = "<group>"; };
 		DA59975714DC054100BAEECE /* SMKDBResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBResults.h; sourceTree = "<group>"; };
-		DA59976114DC083800BAEECE /* libmysqlclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmysqlclient.a; path = "../../../../../../usr/local/mysql-5.5.19-osx10.6-x86_64/lib/libmysqlclient.a"; sourceTree = "<group>"; };
 		DA6DE63114E28C49009D120F /* SMKDBGatherer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBGatherer.h; sourceTree = "<group>"; };
 		DA6DE63214E28C49009D120F /* SMKDBGatherer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBGatherer.m; sourceTree = "<group>"; };
 		DAD38DC614E1356C00A7B581 /* TestTableDDL_postgres.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestTableDDL_postgres.sql; sourceTree = "<group>"; };
@@ -122,9 +113,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2FA0AC14E191BF00CC6CE9 /* libSMKCocoaCommon.a in Frameworks */,
-				DA2FA0A914E1919D00CC6CE9 /* lib_pah_pq.a in Frameworks */,
-				DA59976214DC083800BAEECE /* libmysqlclient.a in Frameworks */,
 				DA2FA0AA14E191A200CC6CE9 /* libcrypto.0.9.8.dylib in Frameworks */,
 				DA2FA0AD14E191F500CC6CE9 /* libssl.0.9.8.dylib in Frameworks */,
 				DA2FA0AE14E191FA00CC6CE9 /* Kerberos.framework in Frameworks */,
@@ -139,11 +127,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA59973F14DC04C900BAEECE /* libSMKDB.a in Frameworks */,
-				DA2FA0A814E18E9800CC6CE9 /* lib_pah_pq.a in Frameworks */,
-				DA2FA08F14E1705500CC6CE9 /* libmysqlclient.a in Frameworks */,
 				DA2FA09D14E17ED800CC6CE9 /* libssl.0.9.8.dylib in Frameworks */,
 				DA2FA09F14E17EED00CC6CE9 /* libcrypto.0.9.8.dylib in Frameworks */,
-				DA2FA0CB14E205F500CC6CE9 /* libSMKCocoaCommon.a in Frameworks */,
 				DA2FA09B14E17E9A00CC6CE9 /* Kerberos.framework in Frameworks */,
 				DA2FA0A114E17F1400CC6CE9 /* LDAP.framework in Frameworks */,
 				DA59973B14DC04C900BAEECE /* SenTestingKit.framework in Frameworks */,
@@ -210,9 +195,6 @@
 		DA59972714DC04C800BAEECE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DA2FA0AB14E191BF00CC6CE9 /* libSMKCocoaCommon.a */,
-				DA2FA0A714E18E9800CC6CE9 /* lib_pah_pq.a */,
-				DA59976114DC083800BAEECE /* libmysqlclient.a */,
 				DA2FA09E14E17EED00CC6CE9 /* libcrypto.0.9.8.dylib */,
 				DA2FA09514E17AF000CC6CE9 /* libssl.0.9.8.dylib */,
 				DA2FA0B014E1920F00CC6CE9 /* Security.framework */,
