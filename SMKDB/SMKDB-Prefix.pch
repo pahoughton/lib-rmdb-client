@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'SMKDB' target in the 'SMKDB' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
