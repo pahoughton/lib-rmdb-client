@@ -40,7 +40,7 @@
 -(void)procQuery;
 
 @end
-
+#if defined( SMKDB_NON_MT_GATH )
 @interface SMKDBGathCollDict : SMKDBGatherCollector
 -(void)procQuery;
 @end
@@ -48,6 +48,7 @@
 @interface SMKDBGathCollArray : SMKDBGatherCollector
 -(void)procQuery;
 @end
+#endif
 
 @interface SMKDBGathCollMtDict : SMKDBGatherCollector
 -(void)procQuery;

@@ -52,6 +52,7 @@
 }
 @end
 
+#if defined( SMKDB_NON_MT_GATH )
 @implementation SMKDBGathCollDict
 -(void)procQuery
 {
@@ -81,6 +82,7 @@
     [self setRecProcObj:nil];
 }
 @end
+#endif
 
 @implementation SMKDBGathCollMtDict
 -(void)procQuery
@@ -135,11 +137,14 @@
                 coll = [SMKDBGathCollMtArray alloc];
             }
         } else {
+          [NSException raise:@"SMKDB" format:@"NON MainThread unsupported"];
+#if defined( SMKDB_NON_MT_GATH )
             if( type == SMKDB_REC_DICT ) {
                 coll = [SMKDBGathCollDict alloc];
             } else {
                 coll = [SMKDBGathCollArray alloc];
             }        
+#endif
         }
         coll = [coll initWithConn:conn sql:querySql procObj:obj procSel:objSel];
     }
