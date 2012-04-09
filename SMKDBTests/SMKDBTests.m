@@ -70,7 +70,7 @@
     SMKLogger * tee = [[SMKLogger alloc] initToStderr];
     [lgr setTeeLogger:tee];
     SMKLogError(@"Test tee logging now on");
-    [SMKDBConnMgr setInfoProvider:[[TestDBInfo alloc] init]];
+    [SMKDBConnMgr setDefaultInfoProvider:[[TestDBInfo alloc] init]];
     srcDataArray = [[NSMutableArray alloc] init];
     // Set-up code here.
 }
@@ -87,7 +87,7 @@
     id <SMKDBConn> db;
     
     @try {
-        db = [SMKDBConnMgr conn];
+        db = [SMKDBConnMgr getNewDbConn];
         // clean out the table
         [db queryBool:@"delete from test"];
         [db commit];
@@ -233,19 +233,44 @@ STAssertEqualObjects([rec valueForKey:_k],	\
 -(void) retrieveImages
 {
     // now Lets get it back and compare
-    self.curRecNum = 0;
-    SEL rpSel = @selector(testRecProc:);
-    SMKLogDebug(@"test self %@ proc sel %p", self, rpSel);
+  self.curRecNum = 0;
+  SEL rpSel = @selector(testRecProc:);
+  SMKLogDebug(@"test self %@ proc sel %p", self, rpSel);
+  /*
     [SMKDBConnMgr fetchAllRowsDictMtObj:self 
                                    proc:rpSel
                                     sql:
      @"select test_id, test_vchar, test_date, test_timestamp, "
      "test_xres, test_yres, test_double, test_numeric, test_blob "
      "from test order by test_id"];
+   */
 }
 
 - (void)testExample
 {
+  id <SMKDBConn> db = [SMKDBConnMgr getNewDbConn];
+  id <SMKDBResults> rslt;
+  rslt = [db query:@"SELECT cast( '-2 day' as interval )"];
+  NSArray * rec = [rslt fetchRowArray];
+  SMKDBInterval * val =[rec objectAtIndex:0];
+  NSLog(@"val  %@", val);
+  SMKDBInterval * test = [[SMKDBInterval alloc]init];
+  [test setWithString:@" 1 yr 2 mons 3 days 03:10:05"];
+  STAssertEquals(test.months,  14,@"months");
+  STAssertEquals(test.days,     3,@"days");
+  STAssertEquals(test.seconds, (3*60*60)+(10*60)+5.0,@"secs");
+  NSLog(@"test: %@",test);
+  
+  [test setWithString:@"23:05"];
+  STAssertEquals(test.months,   0,@"months");
+  STAssertEquals(test.days,     0,@"days");
+  STAssertEquals(test.seconds, (23*60)+5.0,@"secs");
+  NSLog(@"test: %@",test);
+  
+  [test setSeconds:35.23576];
+  NSLog(@"test: %@",test);
+  
+  /*
     [self insertImages];
     [self retrieveImages];
 
@@ -256,6 +281,7 @@ STAssertEqualObjects([rec valueForKey:_k],	\
         [[NSRunLoop currentRunLoop] runUntilDate:fiveSecs];
     }
     STAssertTrue(resultsDone, @"Not done yet???? recs %lu", curRecNum);
+   */
 }
 
 @end

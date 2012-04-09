@@ -25,6 +25,7 @@
 **/
 #import "SMKDBTypeConv_postgres.h"
 #import <SMKLogger.h>
+#import "SMKDBInterval.h"
 #import <libpq-fe.h>
 
 
@@ -397,8 +398,31 @@
 @implementation PgConv_interval_send
 -(NSObject *)conv:(PgConvArgs *)convArgs
 {
-        return [[NSData alloc] initWithBytes:[convArgs data]
-                                      length:[convArgs dataLen]];
+  if( [convArgs dataLen] == 16 ) {
+    uint32_t h32 = 0;
+    uint32_t l32 = 0;
+    const char * val = [convArgs data];
+    memcpy(&h32, val, 4);
+    memcpy(&l32, val + 4, 4);
+    h32 = ntohl(h32);
+    l32 = ntohl(l32);
+    int64_t i64 = h32;
+    i64 <<= 32;
+    i64 |= l32;
+    int32_t day;
+    int32_t mnth;
+    memcpy(&day, val + 8, 4);
+    day = ntohl(day);
+    memcpy(&mnth, val + 12, 4);
+    mnth = ntohl(mnth);
+    // int64_t sec = i64;
+    double  timeVal = i64;
+    timeVal = timeVal / 1000000;
+    //NSLog(@"interval len t:%lld %f %d %d",i64,timeVal, day,mnth);
+    return [[SMKDBInterval alloc]initWithMonths:mnth days:day secs:timeVal];
+  }
+  return [[NSData alloc] initWithBytes:[convArgs data]
+                                length:[convArgs dataLen]];
 }
 @end
 
@@ -861,8 +885,8 @@
 @implementation PgConv_tintervalsend
 -(NSObject *)conv:(PgConvArgs *)convArgs
 {
-        return [[NSData alloc] initWithBytes:[convArgs data]
-                                      length:[convArgs dataLen]];
+  return [[NSData alloc] initWithBytes:[convArgs data]
+                                length:[convArgs dataLen]];
 }
 @end
 

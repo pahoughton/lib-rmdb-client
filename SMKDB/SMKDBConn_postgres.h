@@ -57,8 +57,8 @@
 
 -(NSString *)errorMessage;
 
--(NSString *)q:(NSObject *) val;
--(NSString *)quote:(NSObject *)val;
+-(NSString *)q:(id) val;
+-(NSString *)quote:(id)val;
 
 -(SMKDBResults_postgres *)query:(NSString *)sql;
 // i.e. @"select %s,%d,%@",cstr,int,obj

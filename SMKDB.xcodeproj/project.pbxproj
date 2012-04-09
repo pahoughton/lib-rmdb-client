@@ -43,6 +43,11 @@
 		DA59975A14DC054100BAEECE /* SMKDB.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975214DC054100BAEECE /* SMKDB.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA59975B14DC054100BAEECE /* SMKDBConn.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975314DC054100BAEECE /* SMKDBConn.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA59975F14DC054100BAEECE /* SMKDBResults.h in Headers */ = {isa = PBXBuildFile; fileRef = DA59975714DC054100BAEECE /* SMKDBResults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA66B41E1532B09500AC8A49 /* libpq.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DA66B41D1532B09500AC8A49 /* libpq.dylib */; };
+		DA66B4211532B0BA00AC8A49 /* libmysqlclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA66B4201532B0BA00AC8A49 /* libmysqlclient.a */; };
+		DA66B4231532B0DF00AC8A49 /* libSMKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA66B4221532B0DF00AC8A49 /* libSMKCommon.a */; };
+		DA66B4261532B98C00AC8A49 /* SMKDBInterval.h in Headers */ = {isa = PBXBuildFile; fileRef = DA66B4241532B98C00AC8A49 /* SMKDBInterval.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA66B4271532B98C00AC8A49 /* SMKDBInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = DA66B4251532B98C00AC8A49 /* SMKDBInterval.m */; };
 		DA6DE63314E28C49009D120F /* SMKDBGatherer.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6DE63114E28C49009D120F /* SMKDBGatherer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA6DE63414E28C49009D120F /* SMKDBGatherer.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6DE63214E28C49009D120F /* SMKDBGatherer.m */; };
 		DAEC210014E97B1D00732376 /* SMKDBNull.h in Headers */ = {isa = PBXBuildFile; fileRef = DAEC20FE14E97B1D00732376 /* SMKDBNull.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -100,6 +105,11 @@
 		DA59975214DC054100BAEECE /* SMKDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDB.h; sourceTree = "<group>"; };
 		DA59975314DC054100BAEECE /* SMKDBConn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBConn.h; sourceTree = "<group>"; };
 		DA59975714DC054100BAEECE /* SMKDBResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBResults.h; sourceTree = "<group>"; };
+		DA66B41D1532B09500AC8A49 /* libpq.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpq.dylib; path = usr/lib/libpq.dylib; sourceTree = SDKROOT; };
+		DA66B4201532B0BA00AC8A49 /* libmysqlclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmysqlclient.a; path = ../../../../../../Support/lib/libmysqlclient.a; sourceTree = "<group>"; };
+		DA66B4221532B0DF00AC8A49 /* libSMKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSMKCommon.a; path = ../../../../../../Support/lib/libSMKCommon.a; sourceTree = "<group>"; };
+		DA66B4241532B98C00AC8A49 /* SMKDBInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBInterval.h; sourceTree = "<group>"; };
+		DA66B4251532B98C00AC8A49 /* SMKDBInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBInterval.m; sourceTree = "<group>"; };
 		DA6DE63114E28C49009D120F /* SMKDBGatherer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBGatherer.h; sourceTree = "<group>"; };
 		DA6DE63214E28C49009D120F /* SMKDBGatherer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBGatherer.m; sourceTree = "<group>"; };
 		DAD38DC614E1356C00A7B581 /* TestTableDDL_postgres.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestTableDDL_postgres.sql; sourceTree = "<group>"; };
@@ -126,6 +136,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA66B4231532B0DF00AC8A49 /* libSMKCommon.a in Frameworks */,
+				DA66B4211532B0BA00AC8A49 /* libmysqlclient.a in Frameworks */,
+				DA66B41E1532B09500AC8A49 /* libpq.dylib in Frameworks */,
 				DA59973F14DC04C900BAEECE /* libSMKDB.a in Frameworks */,
 				DA2FA09D14E17ED800CC6CE9 /* libssl.0.9.8.dylib in Frameworks */,
 				DA2FA09F14E17EED00CC6CE9 /* libcrypto.0.9.8.dylib in Frameworks */,
@@ -176,6 +189,9 @@
 		DA59971A14DC04C800BAEECE = {
 			isa = PBXGroup;
 			children = (
+				DA66B4221532B0DF00AC8A49 /* libSMKCommon.a */,
+				DA66B4201532B0BA00AC8A49 /* libmysqlclient.a */,
+				DA66B41D1532B09500AC8A49 /* libpq.dylib */,
 				DA59972E14DC04C900BAEECE /* SMKDB */,
 				DA59974014DC04C900BAEECE /* SMKDBTests */,
 				DA59972714DC04C800BAEECE /* Frameworks */,
@@ -224,6 +240,7 @@
 				DA59975114DC054100BAEECE /* SMKDB_priv.h */,
 				DA34FAA014DE83350027B628 /* SMKDBConnMgr.m */,
 				DA34FACA14DE99D20027B628 /* SMKDBException.m */,
+				DA66B4251532B98C00AC8A49 /* SMKDBInterval.m */,
 				DAEC20FF14E97B1D00732376 /* SMKDBNull.m */,
 				DA6DE63214E28C49009D120F /* SMKDBGatherer.m */,
 				DA34FABC14DE870C0027B628 /* SqlLite */,
@@ -278,6 +295,7 @@
 				DA34FAC914DE99D20027B628 /* SMKDBException.h */,
 				DA6DE63114E28C49009D120F /* SMKDBGatherer.h */,
 				DAEC20FE14E97B1D00732376 /* SMKDBNull.h */,
+				DA66B4241532B98C00AC8A49 /* SMKDBInterval.h */,
 			);
 			name = "Public Headers";
 			sourceTree = "<group>";
@@ -303,6 +321,7 @@
 				DA6DE63314E28C49009D120F /* SMKDBGatherer.h in Headers */,
 				DA33A43714E67D450015C53F /* SMKDBTypeConv_postgres.h in Headers */,
 				DAEC210014E97B1D00732376 /* SMKDBNull.h in Headers */,
+				DA66B4261532B98C00AC8A49 /* SMKDBInterval.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +432,7 @@
 				DA6DE63414E28C49009D120F /* SMKDBGatherer.m in Sources */,
 				DA33A43814E67D450015C53F /* SMKDBTypeConv_postgres.m in Sources */,
 				DAEC210114E97B1D00732376 /* SMKDBNull.m in Sources */,
+				DA66B4271532B98C00AC8A49 /* SMKDBInterval.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
