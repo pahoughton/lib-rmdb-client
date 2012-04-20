@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+@interface SMKDBIntervalFormatter : NSFormatter
+@end
+
 @interface SMKDBInterval : NSObject <NSCopying>
 @property (assign) double   seconds;
 @property (assign) int32_t  days;

@@ -8,6 +8,37 @@
 
 #import "SMKDBInterval.h"
 
+@implementation SMKDBIntervalFormatter
+-(NSString *)stringForObjectValue:(id)anObject
+{
+  NSString * str = nil;
+  if( [anObject isKindOfClass:[SMKDBInterval class]] ) {
+    SMKDBInterval * it = anObject;
+    str = it.stringValue;
+  }
+  return str;
+}
+- (BOOL)getObjectValue:(id *)anObject 
+             forString:(NSString *)string 
+      errorDescription:(NSString **)error
+{
+  SMKDBInterval * it = [[SMKDBInterval alloc]init ];
+  BOOL ret = FALSE;
+  @try {
+    [it setWithString: string];
+    *anObject = it;
+    ret = TRUE;
+  }
+  @catch (NSException *exception) {
+    *error = [exception description];
+  }
+  return ret;
+}
+
+
+
+
+@end
 @implementation SMKDBInterval
 @synthesize seconds = _seconds;
 @synthesize days    = _days;
@@ -80,6 +111,8 @@
     [self setMonths:myMonths];
     [self setDays:myDays];
     [self setSeconds:mySecs];
+  } else {
+    [NSException raise:[self className] format:@"parse error '%@'",str];
   }
   /*
   NSLog(@"Matches: %@",matches);
@@ -119,10 +152,11 @@
     uint32_t min = (hrs % (60*60))/60;
     uint32_t sec = (hrs % 60);
     hrs = hrs / (60*60);
+    
     if( hrs ) {
-      [str appendFormat:@"%02d:",hrs];
-    }
-    if( fract == 0 ) {
+      [str appendFormat:@"%02d:%02d",hrs,min];
+    
+    } else if( fract == 0 ) {
       [str appendFormat:@"%02d:%02d",min,sec];
     } else {
       fract += sec;
