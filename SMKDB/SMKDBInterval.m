@@ -154,7 +154,7 @@
     hrs = hrs / (60*60);
     
     if( hrs ) {
-      [str appendFormat:@"%02d:%02d",hrs,min];
+      [str appendFormat:@"%02lld:%02d",hrs,min];
     
     } else if( fract == 0 ) {
       [str appendFormat:@"%02d:%02d",min,sec];

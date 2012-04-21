@@ -1019,7 +1019,7 @@
         unsigned char * binary = PQunescapeBytea((const unsigned char *)[convArgs data], &binLen);
         NSData * data = [[NSData alloc] initWithBytes:binary length:binLen];
         PQfreemem(binary);
-        SMKLogDebug(@"bin conv fLen %d tLen %u",[convArgs dataLen], binLen);
+        SMKLogDebug(@"bin conv fLen %d tLen %zu",[convArgs dataLen], binLen);
         return data;
 }
 @end

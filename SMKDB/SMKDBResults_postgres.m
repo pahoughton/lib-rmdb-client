@@ -212,7 +212,7 @@
                               [self className],
                               [self numFields]];
     for( NSString * fld in [self fieldNames] ) {
-        [desc appendFormat:@"  %@\n"];
+        [desc appendFormat:@"  %@\n",fld];
     }
     return desc;
 }
