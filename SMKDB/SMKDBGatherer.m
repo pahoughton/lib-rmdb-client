@@ -24,6 +24,7 @@
 
 **/
 #import "SMKDBGatherer.h"
+#import "SMKCommon.h"
 
 @implementation SMKDBGatherCollector : NSObject
 @synthesize recProcObj;
@@ -48,7 +49,7 @@
 
 -(void)procQuery
 {
-    [SMKDBException raise:@"SMKDB" format:@"%@ procQuery should not be used",[self className]];
+  SMKThrow(@"%@ procQuery should not be used",[self className]);
 }
 @end
 
@@ -137,7 +138,7 @@
                 coll = [SMKDBGathCollMtArray alloc];
             }
         } else {
-          [NSException raise:@"SMKDB" format:@"NON MainThread unsupported"];
+          SMKThrow(@"NON MainThread unsupported");
 #if defined( SMKDB_NON_MT_GATH )
             if( type == SMKDB_REC_DICT ) {
                 coll = [SMKDBGathCollDict alloc];

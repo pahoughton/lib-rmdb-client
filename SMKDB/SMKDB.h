@@ -33,7 +33,6 @@
 #import <SMKDBConnInfo.h>
 #import <SMKDBConnMgr.h>
 #import <SMKDBGatherer.h>
-#import <SMKDBException.h>
 #import "SMKDBInterval.h"
 #import <SMKDBNull.h>
 

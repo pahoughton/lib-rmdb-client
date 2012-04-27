@@ -7,6 +7,7 @@
 //
 
 #import "SMKDBInterval.h"
+#import "SMKCommon.h"
 
 @implementation SMKDBIntervalFormatter
 -(NSString *)stringForObjectValue:(id)anObject
@@ -112,7 +113,7 @@
     [self setDays:myDays];
     [self setSeconds:mySecs];
   } else {
-    [NSException raise:[self className] format:@"parse error '%@'",str];
+    SMKThrow( @"parse error '%@'",str );
   }
   /*
   NSLog(@"Matches: %@",matches);

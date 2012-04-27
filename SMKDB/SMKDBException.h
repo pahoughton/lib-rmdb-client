@@ -25,7 +25,6 @@
 
 #import <Foundation/Foundation.h>
 #import <SMKLogger.h>
-
 #define SMKDBExcept(_fmt_,...)     [SMKDBException raise:@"SMKDB" format:_fmt_,##__VA_ARGS__]
 
 @interface SMKDBException : NSException
