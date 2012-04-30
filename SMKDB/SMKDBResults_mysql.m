@@ -25,10 +25,6 @@
 **/
 #import "SMKDBResults_mysql.h"
 
-#undef SMKDBExcept
-#define SMKDBExcept(_fmt_,...) self.conn.doExcept    \
-                               ? [SMKDBException raise:@"SMKDB" format:_fmt_,##__VA_ARGS__] \
-                               : SMKLogError( _fmt_,##__VA_ARGS__ )
 
 @implementation SMKDBResults_mysql
 @synthesize myconn;

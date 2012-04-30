@@ -28,7 +28,7 @@
 #import "SMKDBResults_postgres.h"
 #import "SMKDBConn_mysql.h"
 #import "SMKDBResults_mysql.h"
-#import "SMKDBException.h"
+#import "SMKCommon.h"
 
 
 
@@ -65,7 +65,7 @@ static id <SMKDBConnInfo> smkConnInfo;
             break;
             
         default:
-            SMKDBExcept(@"Invalid db type %d",[smkConnInfo dbType]);
+            SMKThrow(@"Invalid db type %d",[smkConnInfo dbType]);
             return nil;
             break;
     }
@@ -118,7 +118,7 @@ static id <SMKDBConnInfo> smkConnInfo;
             break;
             
         default:
-            SMKDBExcept(@"Invalid db type %d",[connInfo dbType]);
+            SMKThrow(@"Invalid db type %d",[connInfo dbType]);
             return nil;
             break;
     }

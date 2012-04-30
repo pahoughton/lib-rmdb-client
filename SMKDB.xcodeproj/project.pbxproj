@@ -31,7 +31,6 @@
 		DA34FAAF14DE84530027B628 /* SMKDBResults_mysql.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34FAAD14DE84530027B628 /* SMKDBResults_mysql.m */; };
 		DA34FAB214DE84660027B628 /* SMKDBResults_postgres.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FAB014DE84660027B628 /* SMKDBResults_postgres.h */; };
 		DA34FAB314DE84660027B628 /* SMKDBResults_postgres.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34FAB114DE84660027B628 /* SMKDBResults_postgres.m */; };
-		DA34FACC14DE99D20027B628 /* SMKDBException.m in Sources */ = {isa = PBXBuildFile; fileRef = DA34FACA14DE99D20027B628 /* SMKDBException.m */; };
 		DA34FACE14DEA45F0027B628 /* SMKDBConnInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = DA34FACD14DEA45F0027B628 /* SMKDBConnInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA4784C714DFBF4200893259 /* TestDBInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4784C014DFBB9800893259 /* TestDBInfo.m */; };
 		DA59973B14DC04C900BAEECE /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA59973A14DC04C900BAEECE /* SenTestingKit.framework */; };
@@ -72,16 +71,15 @@
 		DA33A43514E67D450015C53F /* SMKDBTypeConv_postgres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMKDBTypeConv_postgres.h; path = SMKDB/SMKDBTypeConv_postgres.h; sourceTree = "<group>"; };
 		DA33A43614E67D450015C53F /* SMKDBTypeConv_postgres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMKDBTypeConv_postgres.m; path = SMKDB/SMKDBTypeConv_postgres.m; sourceTree = "<group>"; };
 		DA34FA9F14DE83350027B628 /* SMKDBConnMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBConnMgr.h; sourceTree = "<group>"; };
-		DA34FAA014DE83350027B628 /* SMKDBConnMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBConnMgr.m; sourceTree = "<group>"; };
+		DA34FAA014DE83350027B628 /* SMKDBConnMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SMKDBConnMgr.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DA34FAA414DE83800027B628 /* SMKDBConn_postgres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMKDBConn_postgres.h; path = SMKDB/SMKDBConn_postgres.h; sourceTree = "<group>"; };
-		DA34FAA514DE83800027B628 /* SMKDBConn_postgres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMKDBConn_postgres.m; path = SMKDB/SMKDBConn_postgres.m; sourceTree = "<group>"; };
+		DA34FAA514DE83800027B628 /* SMKDBConn_postgres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SMKDBConn_postgres.m; path = SMKDB/SMKDBConn_postgres.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DA34FAA814DE83970027B628 /* SMKDBConn_mysql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBConn_mysql.h; sourceTree = "<group>"; };
-		DA34FAA914DE83970027B628 /* SMKDBConn_mysql.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBConn_mysql.m; sourceTree = "<group>"; };
+		DA34FAA914DE83970027B628 /* SMKDBConn_mysql.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SMKDBConn_mysql.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DA34FAAC14DE84530027B628 /* SMKDBResults_mysql.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBResults_mysql.h; sourceTree = "<group>"; };
-		DA34FAAD14DE84530027B628 /* SMKDBResults_mysql.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBResults_mysql.m; sourceTree = "<group>"; };
+		DA34FAAD14DE84530027B628 /* SMKDBResults_mysql.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SMKDBResults_mysql.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		DA34FAB014DE84660027B628 /* SMKDBResults_postgres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SMKDBResults_postgres.h; path = SMKDB/SMKDBResults_postgres.h; sourceTree = "<group>"; };
 		DA34FAB114DE84660027B628 /* SMKDBResults_postgres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SMKDBResults_postgres.m; path = SMKDB/SMKDBResults_postgres.m; sourceTree = "<group>"; };
-		DA34FACA14DE99D20027B628 /* SMKDBException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMKDBException.m; sourceTree = "<group>"; };
 		DA34FACD14DEA45F0027B628 /* SMKDBConnInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMKDBConnInfo.h; sourceTree = "<group>"; };
 		DA4784BF14DFBB9800893259 /* TestDBInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDBInfo.h; sourceTree = "<group>"; };
 		DA4784C014DFBB9800893259 /* TestDBInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDBInfo.m; sourceTree = "<group>"; };
@@ -237,7 +235,6 @@
 				DA59976314DC08F100BAEECE /* Public Headers */,
 				DA59975114DC054100BAEECE /* SMKDB_priv.h */,
 				DA34FAA014DE83350027B628 /* SMKDBConnMgr.m */,
-				DA34FACA14DE99D20027B628 /* SMKDBException.m */,
 				DA66B4251532B98C00AC8A49 /* SMKDBInterval.m */,
 				DAEC20FF14E97B1D00732376 /* SMKDBNull.m */,
 				DA6DE63214E28C49009D120F /* SMKDBGatherer.m */,
@@ -424,7 +421,6 @@
 				DA34FAAB14DE83970027B628 /* SMKDBConn_mysql.m in Sources */,
 				DA34FAAF14DE84530027B628 /* SMKDBResults_mysql.m in Sources */,
 				DA34FAB314DE84660027B628 /* SMKDBResults_postgres.m in Sources */,
-				DA34FACC14DE99D20027B628 /* SMKDBException.m in Sources */,
 				DA6DE63414E28C49009D120F /* SMKDBGatherer.m in Sources */,
 				DA33A43814E67D450015C53F /* SMKDBTypeConv_postgres.m in Sources */,
 				DAEC210114E97B1D00732376 /* SMKDBNull.m in Sources */,

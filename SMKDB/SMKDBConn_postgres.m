@@ -25,12 +25,7 @@
 
 #import "SMKDBConn_postgres.h"
 #import "SMKDBTypeConv_postgres.h"
-#import "SMKDBException.h"
-
-#undef SMKDBExcept
-#define SMKDBExcept(_fmt_,...) self.doExcept    \
-? [SMKDBException raise:@"SMKDB" format:_fmt_,##__VA_ARGS__] \
-: SMKLogError( _fmt_,##__VA_ARGS__ )
+#import "SMKCommon.h"
 
 static NSString * sqlDateFmtStr = @"''yyyy-MM-dd HH:mm:ss''";
 static NSString * paramDateFmtStr = @"yyyy-MM-dd HH:mm:ss";
@@ -155,7 +150,7 @@ static NSMutableDictionary * serverTypeOidConverters = nil;
     return TRUE;
   } else {
     if( doExcept ) {
-      SMKDBExcept([self errorMessage]);
+      SMKThrow([self errorMessage]);
       return FALSE;
     } else {
       return FALSE;
@@ -289,7 +284,7 @@ static NSMutableDictionary * serverTypeOidConverters = nil;
        && resStatus != PGRES_COMMAND_OK ) {
       // yuck
       if( doExcept ) {
-        SMKDBExcept(@"%@\nsql:%@",[self resultsErrorMessage:res],sql);
+        SMKThrow(@"%@\nsql:%@",[self resultsErrorMessage:res],sql);
         return  nil;
       } else {
         return nil;
@@ -360,7 +355,7 @@ static NSMutableDictionary * serverTypeOidConverters = nil;
         pLengths[pCnt] = (int)[p lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
         pFormats[pCnt] = 0;
       } else { 
-        SMKDBExcept(@"unsupport type in queryParams %@",[p className]);
+        SMKThrow(@"unsupport type in queryParams %@",[p className]);
       }
       ++ pCnt;
     }
@@ -387,7 +382,7 @@ static NSMutableDictionary * serverTypeOidConverters = nil;
      && resStatus != PGRES_COMMAND_OK ) {
     // yuck
     if( doExcept ) {
-      SMKDBExcept(@"%@\nsql:%@",[self resultsErrorMessage:res],sql);
+      SMKThrow(@"%@\nsql:%@",[self resultsErrorMessage:res],sql);
       return  nil;
     } else {
       return nil;

@@ -26,14 +26,8 @@
 
 #import "SMKDBConn_mysql.h"
 #import <mysql.h>
-#import "SMKDBException.h"
-#import <SMKLogger.h>
+#import <SMKCommon.h>
 #import "SMKDBResults_mysql_stmt.h"
-
-#undef SMKDBExcept
-#define SMKDBExcept(_fmt_,...) self.doExcept    \
-? [SMKDBException raise:@"SMKDB" format:_fmt_,##__VA_ARGS__] \
-: SMKLogError( _fmt_,##__VA_ARGS__ )
 
 static NSString * sqlDateFmtStr = @"''yyyy-MM-dd HH:mm:ss''";
 static NSDateFormatter * sqlDateFormater = nil;
@@ -54,7 +48,7 @@ static NSDateFormatter * sqlDateFormater = nil;
     }
     self.my = mysql_init(NULL);
     if( ! self.my ) {
-        SMKDBExcept(@"mysql_init failed");
+        SMKThrow(@"mysql_init failed");
     }
     return self;
 }
@@ -105,7 +99,7 @@ static NSDateFormatter * sqlDateFormater = nil;
         return TRUE;
     } else {
         self.lastErrorId = mysql_errno([self my]);
-        SMKDBExcept([self errorMessage]);
+        SMKThrow([self errorMessage]);
     }
     return FALSE;
 }
@@ -204,7 +198,7 @@ static NSDateFormatter * sqlDateFormater = nil;
         return TRUE;
     } else {
         self.lastErrorId = mysql_errno([self my]);
-        SMKDBExcept([self errorMessage]);
+        SMKThrow([self errorMessage]);
     }
     return FALSE;
 }
@@ -268,7 +262,7 @@ static NSDateFormatter * sqlDateFormater = nil;
 -(SMKDBResults_mysql_stmt *)queryParams:(NSString *)sql 
                                  params:(NSArray *)params;
 {
-    SMKDBExcept(@"queryParams unsupporte");
+    SMKThrow(@"queryParams unsupporte");
     return nil;
     /*
     // NSRegularExpressionSearch
@@ -285,13 +279,13 @@ static NSDateFormatter * sqlDateFormater = nil;
     MYSQL_STMT * stmt = mysql_stmt_init([self my]);
     
     if( stmt == NULL ) {
-        SMKDBExcept([self errorMessage]);
+        SMKThrow([self errorMessage]);
     }
     if( mysql_stmt_prepare(stmt, 
                            [fixSql UTF8String], 
                            [fixSql lengthOfBytesUsingEncoding:
                             NSUTF8StringEncoding]) ) {
-                               SMKDBExcept([self errorMessage]);
+                               SMKThrow([self errorMessage]);
                            }
     MYSQL_BIND * bind = malloc([params count] * 2 * sizeof(MYSQL_BIND));
     memset(bind,0, sizeof( MYSQL_BIND) * [params count]);
@@ -309,15 +303,15 @@ static NSDateFormatter * sqlDateFormater = nil;
             bind[pNum].buffer = (void*)[pData bytes];
             bind[pNum].buffer_length = [pData length];
         } else {
-            SMKDBExcept(@"unsupported param type");
+            SMKThrow(@"unsupported param type");
         }
         ++ pNum;
     }
     if( mysql_stmt_bind_param(stmt, bind) ) {
-        SMKDBExcept([self errorMessage]);
+        SMKThrow([self errorMessage]);
     }
     if( mysql_stmt_execute(stmt) ) {
-        SMKDBExcept([self errorMessage]);        
+        SMKThrow([self errorMessage]);        
     }
     SMKDBResults_mysql_stmt * stmtRes;
     stmtRes = [[SMKDBResults_mysql_stmt alloc] initWithConn:self
