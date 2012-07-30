@@ -529,7 +529,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(TARGET_BUILD_DIR)/Support/include",
 					/Support/include,
-					/usr/local/mysql/include,
+					/Support/mysql/include,
 				);
 				INSTALL_PATH = /Support/lib;
 				LIBRARY_SEARCH_PATHS = (
@@ -556,7 +556,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(TARGET_BUILD_DIR)/Support/include",
 					/Support/include,
-					/usr/local/mysql/include,
+					/Support/mysql/include,
 				);
 				INSTALL_PATH = /Support/lib;
 				LIBRARY_SEARCH_PATHS = (

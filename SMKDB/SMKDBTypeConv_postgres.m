@@ -91,9 +91,9 @@
 -(NSObject *)conv:(PgConvArgs *)convArgs
 {
     if( [convArgs data][0] == 0 ) {
-        return [[NSString alloc] initWithString:@"false"];
+        return @"false";
     } else {
-        return [[NSString alloc] initWithString:@"true"];
+        return @"true";
     }
 }
 @end
